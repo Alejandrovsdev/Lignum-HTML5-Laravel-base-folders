@@ -5,10 +5,12 @@ html {
 
 header {
     background-color: lightgray;
+    text-align: center;
 }
 
 footer {
     background-color: lightgray;
+    text-align: center;
 }
 
 aside {
