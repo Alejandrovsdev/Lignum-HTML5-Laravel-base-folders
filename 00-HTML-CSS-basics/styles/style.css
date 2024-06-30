@@ -21,3 +21,31 @@ nav {
     background-color: lightgray;
 }
 
+/* no se especifica una clase header en los requerimientos para cambiar la fuente */
+
+.footer {
+    font-size: 10px;
+    background-color: magenta;
+}
+
+.content {
+    font-size: 14px;
+}
+
+/* no se especifica una clase navegation en los requerimientos para cambiar la fuente */
+.navigation {
+    background-color: blue;
+}
+
+.encabezado {
+    background-color: blue;
+}
+
+.sidebar {
+    font-size: 10px;
+    background-color: magenta;
+}
+
+/* podria ganar "peso" o especificidad para sobrescribir cambios en los estilos usando las reglas de cascada, en este caso, podriamos usar algo más especifico como un id */
+
+/* el problema planteado sobre la clase "no-puedo-usar-inline-styles" lo solucionaria usando un !important seguido del estilo a aplicar en el archivo css vinculado, dado a que es lo más especifico y sobrescribe cualquier estilo, aunque no se recomienda usar para evitar problemas (no es buena practica usarlo) */
