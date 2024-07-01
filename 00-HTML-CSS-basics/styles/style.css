@@ -69,6 +69,23 @@ main {
     font-size: 14px;
 }
 
+.content header {
+    width: 100%;
+    height: 10%;
+    border-radius: 10px;
+}
+.content article {
+    padding: 20px;
+    width: 100%;
+    height: 80%;
+    border-radius: 10px;
+}
+.content footer {
+    width: 100%;
+    height: 10%;
+    border-radius: 10px;
+}
+
 /* no se especifica una clase navegation en los requerimientos para cambiar la fuente */
 
 .sidebar {
