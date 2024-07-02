@@ -24,6 +24,15 @@ main {
     justify-content: space-between;
     align-items: center;
 }
+
+.biome {
+    color: #00720f;
+}
+.geobiome {
+    color: #00720f;
+    font-weight: bold;
+}
+
 .nav {
     display: flex;
     flex-direction: row;
@@ -35,6 +44,7 @@ main {
 }
 .nav a:hover {
     transform: scale(1.1);
+    color: #00720f
 }
 .burgermenu {
     display: none;
@@ -50,15 +60,22 @@ main {
     margin-bottom: 20px;
 }
 
-.about p .link {
+.link {
     text-decoration: none;
     color: #131415;
 }
-.about p .link:hover {
+.twitter:hover {
     text-decoration: underline;
-    color: #000;
+    color: #00b7ff;
 }
-
+.facebook:hover {
+    text-decoration: underline;
+    color: #2600ff;
+}
+.pinterest:hover {
+    text-decoration: underline;
+    color: #f70000;
+}
 .about h2 {
     margin-top: 100px;
 }
