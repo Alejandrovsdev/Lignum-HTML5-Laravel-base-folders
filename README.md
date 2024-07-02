@@ -1,5 +1,5 @@
 # Lignum-HTML5-Laravel-base-folders
 
-Use este repositorio como base para su fase de entrenamiento. La idea es
-bifurcar(fork) este proyecto para que todos usen la misma estructura de carpetas para el
-ejercicios.
+Repositorio Base para el desarrollo del bootcamp de Lignum software.
+
+Tech usadas: HTML, CSS, JS, JQUERY, LARAVEL, LIVEWIRE, MYSQL.
