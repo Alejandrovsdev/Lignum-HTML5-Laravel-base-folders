@@ -1,0 +1,139 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    padding: 10px;
+}
+
+header {
+    background-color: rgb(182, 176, 176);
+    width: 100%;
+    height: 12vh;
+    text-align: center;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+footer {
+    background-color: rgb(182, 176, 176);
+}
+
+aside {
+    background-color: rgb(182, 176, 176);
+}
+
+nav {
+    background-color: rgb(182, 176, 176);
+}
+
+/* no se especifica una clase header en los requerimientos para cambiar la fuente */
+
+main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 80vh;
+    gap: 20px;
+}
+
+.footer {
+    width: 100%;
+    height: 8vh;
+    text-align: center;
+    margin-top: 10px;
+    border-radius: 10px;
+    font-size: 10px;
+}
+
+.navigation {
+    width: 15%;
+    height: 100%;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 70%;
+    height: 100%;
+    text-align: center;
+    font-size: 14px;
+}
+
+.content header {
+    width: 100%;
+    height: 10%;
+    border-radius: 10px;
+}
+.content article {
+    padding: 20px;
+    width: 100%;
+    height: 80%;
+    border-radius: 10px;
+}
+.content footer {
+    width: 100%;
+    height: 10%;
+    border-radius: 10px;
+}
+
+/* no se especifica una clase navegation en los requerimientos para cambiar la fuente */
+
+.sidebar {
+    width: 15%;
+    height: 100%;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 10px;
+}
+
+/* podria ganar "peso" o especificidad para sobrescribir cambios en los estilos usando las reglas de cascada, en este caso, podriamos usar algo más especifico como un id */
+
+/* el problema planteado sobre la clase "no-puedo-usar-inline-styles" lo solucionaria usando un !important seguido del estilo a aplicar en el archivo css vinculado, dado a que es lo más especifico y sobrescribe cualquier estilo, aunque no se recomienda usar para evitar problemas (no es buena practica usarlo) */
+
+/* Selectores de atributos con buscadores de coincidencia */
+
+[class$="r"] {
+    background-color: rgb(255, 0, 255);
+}
+
+[class*="a"]:not([class$="r"]) {
+    background-color: rgb(0, 0, 255);
+}
+
+@media screen and (max-width: 1199px) {
+    main {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .navigation {
+        width: 100%;
+        height: 10%;
+        text-align: center;
+        border-radius: 10px;
+    }
+    .sidebar {
+        width: 100%;
+        height: 10%;
+        text-align: center;
+        border-radius: 10px;
+    }
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        width: 100%;
+        height: 80%;
+        text-align: center;
+    }
+}
