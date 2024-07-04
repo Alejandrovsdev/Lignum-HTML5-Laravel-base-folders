@@ -142,3 +142,19 @@
     }
 }
 
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 2px solid #131415;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    border-color: #131415;
+}
+th {
+    background-color: #131415;
+    color: #fff;
+    border-color: #fff;
+}
