@@ -1,6 +1,6 @@
 window.addEventListener('load', function() {
-    const textOculto = document.getElementById('txt');
-    textOculto.classList.add('show');
+    const hiddenTxt = document.getElementById('txt');
+    hiddenTxt.classList.add('show');
 });
 
 const boton = document.getElementById('btn');
