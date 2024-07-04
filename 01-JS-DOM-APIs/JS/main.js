@@ -12,6 +12,13 @@ function openSidebar() {
     sidebar.classList.toggle("open");
 }
 
+function closeSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar.classList.contains("open")) {
+        sidebar.classList.remove("open");
+    }
+}
+
 function errorCliente() {
     const aboutError = document.getElementById("txt");
     aboutError.style.backgroundColor = "red";

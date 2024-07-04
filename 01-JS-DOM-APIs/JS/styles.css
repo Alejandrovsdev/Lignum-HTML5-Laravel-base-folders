@@ -17,6 +17,11 @@
     width: 40%;
 }
 
+.about > img {
+    height: 150px;
+    width: 200px;
+}
+
 .hidden-text {
     opacity: 0;
     transition: opacity 2s ease-in;
@@ -31,9 +36,10 @@
     position: absolute;
     top: 0;
     right: 0;
-    overflow: hidden;
+    overflow-y: auto;
     transition: width 0.5s ease-in-out;
     width: 0;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -119,3 +125,20 @@
     height: 40px;
     border: 3px solid #000;
 }
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    .sidebar.open{
+        width: 300px;
+    }
+    
+    .searchInput {
+    width: 300px;
+    height: 40px;
+    border: 3px solid #000;
+    }
+    
+    .repositoryList {
+        width: 200px;
+    }
+}
+
