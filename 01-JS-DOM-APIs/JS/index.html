@@ -23,6 +23,14 @@
         <h1>Hello World</h1>
     </section> 
     <button id="btn">Click me!</button>
+    <button onclick="openSidebar()">Github Repositories!</button>
+    <aside class="sidebar" id="sidebar">
+        <h2>Repositories</h2>
+        <label for="searchInput"></label>
+        <input type="text" id="searchInput" class="searchInput" placeholder="search repositories">
+        <button class="search" id="search">Search</button>
+        <ol class="repositoryList" id="repositoryList"></ol>
+    </aside>
 <script src="/01-JS-DOM-APIs/JS/main.js"></script>
 </body>
 </html>
