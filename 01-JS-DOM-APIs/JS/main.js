@@ -39,7 +39,7 @@ function hideSearchLoader() {
     searchLoader.hidden = true;
 }
 
-function errorCliente() {
+function clientError() {
     const aboutError = document.getElementById("txt");
     aboutError.style.backgroundColor = "red";
 }
@@ -103,7 +103,7 @@ const getGithubRepositories = (configRepositoriesAPI) => {
                     }
                     resolve(true);
                 } else {
-                    reject(new Error(errorCliente()));
+                    reject(new Error(clientError()));
                 }
             
         };
@@ -149,7 +149,7 @@ const getChuckNorrisJoke = (config) => {
 
                 resolve(paragraph);
             } else {
-                reject(new Error(errorCliente()));
+                reject(new Error(clientError()));
             }
         };
         cliente.open(config.method, config.url);

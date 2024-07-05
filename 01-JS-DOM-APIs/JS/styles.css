@@ -55,6 +55,7 @@ body {
     align-items: center;
     gap: 10px;
     background-color: #fff;
+    border: #131415 solid 1px;
 }
 
 .sidebar ol li {
@@ -79,7 +80,6 @@ body {
     width: 500px;
     height: 100%;
     transition: width 0.5s ease-in-out;
-    border: #131415 solid 1px;
 }
 
 .sidebar h2 {
