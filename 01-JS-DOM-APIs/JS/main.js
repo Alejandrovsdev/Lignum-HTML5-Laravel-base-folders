@@ -1,5 +1,5 @@
 window.addEventListener("DOMContentLoaded", function () {
-    githubRepositories(configRepositoriesAPI);
+    getGithubRepositories(configRepositoriesAPI);
 });
 
 window.addEventListener("load", function () {
@@ -8,40 +8,61 @@ window.addEventListener("load", function () {
 });
 
 function openSidebar() {
-    const sidebar = document.getElementById('sidebar');
+    const sidebar = document.getElementById("sidebar");
     sidebar.classList.toggle("open");
-};
+}
 
 function closeSidebar() {
-    const sidebar = document.getElementById('sidebar');
+    const sidebar = document.getElementById("sidebar");
     if (sidebar.classList.contains("open")) {
         sidebar.classList.remove("open");
     }
-};
+}
+
+function showLoader() {
+    const loader = document.getElementById("loader");
+    loader.hidden = false;
+}
+
+function hideLoader() {
+    const loader = document.getElementById("loader");
+    loader.hidden = true;
+}
+
+function showSearchLoader() {
+    const searchLoader = document.getElementById("searchLoader");
+    searchLoader.hidden = false;
+}
+
+function hideSearchLoader() {
+    const searchLoader = document.getElementById("searchLoader");
+    searchLoader.hidden = true;
+}
 
 function errorCliente() {
     const aboutError = document.getElementById("txt");
     aboutError.style.backgroundColor = "red";
-};
+}
 
 const config = {
     url: "https://api.chucknorris.io/jokes/random",
-    metodo: "GET",
+    method: "GET",
+    mode: "cors" 
 };
 
 const configRepositoriesAPI = {
     url: "https://api.github.com/search/repositories?q=",
-    metodo: "GET"
+    method: "GET",
 };
 
 const data = [
-    {producto: "remera", categoria: "ropa", precio: "$30000"},
-    {producto: "tomátes", categoria: "alimento", precio: "$1500"},
-    {producto: "paracetamol", categoria: "remedio", precio: "$5000"},
-    {producto: "cuadernilo", categoria: "libreria", precio: "$30000"}
+    { product: "t-shirt", category: "cloth", price: "$10" },
+    { product: "blue berrys", category: "food", price: "$2" },
+    { product: "paracetamol", category: "medication", price: "$20" },
+    { product: "Micro services book", category: "education", price: "$120" },
 ];
 
-const githubRepositories = (configRepositoriesAPI) => {
+const getGithubRepositories = (configRepositoriesAPI) => {
     return new Promise((resolve, reject) => {
         const cliente = new XMLHttpRequest();
 
@@ -53,11 +74,12 @@ const githubRepositories = (configRepositoriesAPI) => {
             url = configRepositoriesAPI.url + inputValue;
         }
 
-        cliente.onreadystatechange = () => {
-            if (cliente.readyState === 4) {
-                if (cliente.status === 200) {
-                    const repositoryList = document.getElementById("repositoryList");
-                    const repositoryItem = document.getElementsByClassName("repositoryItem");
+        cliente.onload = () => {
+            if (cliente.readyState === 4 && cliente.status === 200) {
+                    const repositoryList =
+                        document.getElementById("repositoryList");
+                    const repositoryItem =
+                        document.getElementsByClassName("repositoryItem");
                     const itemsJSON = JSON.parse(cliente.responseText).items;
 
                     if (repositoryItem.length) {
@@ -69,76 +91,87 @@ const githubRepositories = (configRepositoriesAPI) => {
                         repositoryItem.classList.add("repositoryItem");
 
                         const repositoryItemsLink = document.createElement("a");
-                        repositoryItemsLink.setAttribute("href", itemsJSON[i].owner.html_url);
+                        repositoryItemsLink.setAttribute(
+                            "href",
+                            itemsJSON[i].owner.html_url
+                        );
                         repositoryItemsLink.setAttribute("target", "_blank");
                         repositoryItemsLink.innerText = itemsJSON[i].full_name;
 
                         repositoryItem.appendChild(repositoryItemsLink);
                         repositoryList.appendChild(repositoryItem);
                     }
-                    resolve(true)
+                    resolve(true);
                 } else {
                     reject(new Error(errorCliente()));
                 }
-            }
-        }
-        cliente.open(configRepositoriesAPI.metodo, url);
+            
+        };
+        cliente.open(configRepositoriesAPI.method, url);
         cliente.send();
     });
 };
 
-const search = document.getElementById("search").addEventListener("click", function () {
-    githubRepositories(configRepositoriesAPI);
-});
+const search = document
+    .getElementById("search")
+    .addEventListener("click", function () {
+        repositoryList.innerHTML = "";
+        showSearchLoader();
+        setTimeout(function() {
+            getGithubRepositories(configRepositoriesAPI)
+                .then(() => {
+                    hideSearchLoader();
+                })
+                .catch((error) => {
+                    hideSearchLoader();
+                    console.error(error);
+                });
+        }, 1000);
+    });
 
-const llamadaAPI = (config) => {
+const getChuckNorrisJoke = (config) => {
     return new Promise((resolve, reject) => {
         const cliente = new XMLHttpRequest();
 
-        cliente.onreadystatechange = () => {
-            if (cliente.readyState === 4) {
-                if (cliente.status === 200) {
-                    const respuestaAPI = document.getElementById("txt");
-                    const node = document.getElementById("parrafo");
-                    
-                    if (node) {
-                        respuestaAPI.removeChild(node);
-                    }
-                    
-                    const parrafo = document.createElement("p");
-                    parrafo.id = "parrafo";
-                    parrafo.textContent = JSON.parse(
-                        cliente.responseText
-                    ).value;
-                    respuestaAPI.appendChild(parrafo);
-                    
-                    resolve(parrafo);
-                } else {
-                    reject(new Error(errorCliente()));
+        cliente.onload = () => {
+            if (cliente.readyState === 4 && cliente.status === 200) {
+                const respuestaAPI = document.getElementById("txt");
+                const node = document.getElementById("paragraph");
+
+                if (node) {
+                    respuestaAPI.removeChild(node);
                 }
+
+                const paragraph = document.createElement("p");
+                paragraph.id = "paragraph";
+                paragraph.textContent = JSON.parse(cliente.responseText).value;
+                respuestaAPI.appendChild(paragraph);
+
+                resolve(paragraph);
+            } else {
+                reject(new Error(errorCliente()));
             }
         };
-        cliente.open(config.metodo, config.url);
+        cliente.open(config.method, config.url);
         cliente.send();
     });
 };
 
 document.getElementById("btn").addEventListener("click", function () {
-        llamadaAPI(config);
+    getChuckNorrisJoke(config);
 });
 
-function tableBuilder (data) {
-
+function expensesList(data) {
     const existingTable = document.querySelector("table");
     if (existingTable) {
         existingTable.remove();
     }
-    
+
     const table = document.createElement("table");
     const tableHead = document.createElement("thead");
     const tableRow = document.createElement("tr");
 
-    for (let key in data[0]){
+    for (let key in data[0]) {
         const tableHeader = document.createElement("th");
         tableHeader.appendChild(document.createTextNode(key));
         tableRow.appendChild(tableHeader);
@@ -157,7 +190,7 @@ function tableBuilder (data) {
             const tableData = document.createElement("td");
             tableData.appendChild(document.createTextNode(dataRow[key]));
             tableRow.appendChild(tableData);
-            }
+        }
 
         tableBody.appendChild(tableRow);
     }
@@ -165,6 +198,20 @@ function tableBuilder (data) {
     document.body.appendChild(table);
 }
 
-const tableGenerator = document.getElementById("tableGenerator").addEventListener("click", function () {
-    tableBuilder(data);
-});
+const tableGenerator = document
+    .getElementById("tableGenerator")
+    .addEventListener("click", function () {
+        const existingTable = document.querySelector("table");
+        if (existingTable) {
+            existingTable.remove();
+        }
+
+        showLoader();
+        setTimeout(function() {
+            hideLoader();
+            expensesList(data);
+        }, 1000);
+    });
+//TODO: Quitar el sidebar con onblur y onfocus + un boton plegado
+//TODO: Contemplar errores de red
+

@@ -5,6 +5,13 @@
     text-align: center;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .about {
     display: flex;
     flex-direction: column;
@@ -24,11 +31,13 @@
 
 .hidden-text {
     opacity: 0;
+    color: #fff;
     transition: opacity 2s ease-in;
 }
 
 .show {
     opacity: 1;
+    color: #131415;
     margin: 40px;
 }
 
@@ -45,6 +54,7 @@
     justify-content: flex-start;
     align-items: center;
     gap: 10px;
+    background-color: #fff;
 }
 
 .sidebar ol li {
@@ -70,7 +80,6 @@
     height: 100%;
     transition: width 0.5s ease-in-out;
     border: #131415 solid 1px;
-    background-color: #fff;
 }
 
 .sidebar h2 {
@@ -127,16 +136,16 @@
 }
 
 @media screen and (min-width: 320px) and (max-width: 767px) {
-    .sidebar.open{
+    .sidebar.open {
         width: 300px;
     }
-    
+
     .searchInput {
-    width: 300px;
-    height: 40px;
-    border: 3px solid #000;
+        width: 300px;
+        height: 40px;
+        border: 3px solid #000;
     }
-    
+
     .repositoryList {
         width: 200px;
     }
@@ -147,7 +156,8 @@ table {
     width: 100%;
     border: 2px solid #131415;
 }
-th, td {
+th,
+td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
@@ -157,4 +167,40 @@ th {
     background-color: #131415;
     color: #fff;
     border-color: #fff;
+}
+
+.loader {
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #131415;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.searchLoader {
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #131415;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
