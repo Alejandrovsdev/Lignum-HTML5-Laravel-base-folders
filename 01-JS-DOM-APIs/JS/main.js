@@ -135,17 +135,21 @@ const getChuckNorrisJoke = (config) => {
 
         cliente.onload = () => {
             if (cliente.readyState === 4 && cliente.status === 200) {
-                const respuestaAPI = document.getElementById("txt");
+                const section = document.getElementById("txt");
                 const node = document.getElementById("paragraph");
 
                 if (node) {
-                    respuestaAPI.removeChild(node);
+                    section.removeChild(node);
                 }
+
+                const headerSection = section.querySelector("h1");
+                headerSection.textContent = "Chuck Norris Joke";
 
                 const paragraph = document.createElement("p");
                 paragraph.id = "paragraph";
+                paragraph.className = "paragraph";
                 paragraph.textContent = JSON.parse(cliente.responseText).value;
-                respuestaAPI.appendChild(paragraph);
+                section.appendChild(paragraph);
 
                 resolve(paragraph);
             } else {
