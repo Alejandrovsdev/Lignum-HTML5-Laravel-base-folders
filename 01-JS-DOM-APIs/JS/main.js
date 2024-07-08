@@ -1,6 +1,4 @@
-window.addEventListener("DOMContentLoaded", function () {
-    getGithubRepositories(configRepositoriesAPI);
-});
+
 
 window.addEventListener("load", function () {
     const hiddenTxt = document.getElementById("txt");
@@ -64,7 +62,7 @@ const data = [
 
 const getGithubRepositories = (configRepositoriesAPI) => {
     return new Promise((resolve, reject) => {
-        const cliente = new XMLHttpRequest();
+        const client = new XMLHttpRequest();
 
         const inputValue = document.getElementById("searchInput").value;
 
@@ -74,13 +72,13 @@ const getGithubRepositories = (configRepositoriesAPI) => {
             url = configRepositoriesAPI.url + inputValue;
         }
 
-        cliente.onload = () => {
-            if (cliente.readyState === 4 && cliente.status === 200) {
+        client.onload = () => {
+            if (client.status === 200) {
                     const repositoryList =
                         document.getElementById("repositoryList");
                     const repositoryItem =
                         document.getElementsByClassName("repositoryItem");
-                    const itemsJSON = JSON.parse(cliente.responseText).items;
+                    const itemsJSON = JSON.parse(client.responseText).items;
 
                     if (repositoryItem.length) {
                         repositoryList.innerHTML = "";
@@ -107,34 +105,38 @@ const getGithubRepositories = (configRepositoriesAPI) => {
                 }
             
         };
-        cliente.open(configRepositoriesAPI.method, url);
-        cliente.send();
+        client.open(configRepositoriesAPI.method, url);
+        client.send();
     });
 };
 
 const search = document
     .getElementById("search")
     .addEventListener("click", function () {
-        repositoryList.innerHTML = "";
-        showSearchLoader();
-        setTimeout(function() {
-            getGithubRepositories(configRepositoriesAPI)
-                .then(() => {
-                    hideSearchLoader();
-                })
-                .catch((error) => {
-                    hideSearchLoader();
-                    console.error(error);
-                });
-        }, 1000);
+        try {
+            repositoryList.innerHTML = "";
+            showSearchLoader();
+            setTimeout(function() {
+                getGithubRepositories(configRepositoriesAPI)
+                    .then(() => {
+                        hideSearchLoader();
+                    })
+                    .catch((error) => {
+                        hideSearchLoader();
+                        console.error(error);
+                    });
+            }, 1000);
+        } catch (error) {
+            clientError();
+        }
     });
 
 const getChuckNorrisJoke = (config) => {
     return new Promise((resolve, reject) => {
-        const cliente = new XMLHttpRequest();
+        const client = new XMLHttpRequest();
 
-        cliente.onload = () => {
-            if (cliente.readyState === 4 && cliente.status === 200) {
+        client.onload = () => {
+            if (client.status === 200) {
                 const section = document.getElementById("txt");
                 const node = document.getElementById("paragraph");
 
@@ -148,7 +150,7 @@ const getChuckNorrisJoke = (config) => {
                 const paragraph = document.createElement("p");
                 paragraph.id = "paragraph";
                 paragraph.className = "paragraph";
-                paragraph.textContent = JSON.parse(cliente.responseText).value;
+                paragraph.textContent = JSON.parse(client.responseText).value;
                 section.appendChild(paragraph);
 
                 resolve(paragraph);
@@ -156,13 +158,17 @@ const getChuckNorrisJoke = (config) => {
                 reject(new Error(clientError()));
             }
         };
-        cliente.open(config.method, config.url);
-        cliente.send();
+        client.open(config.method, config.url);
+        client.send();
     });
 };
 
 document.getElementById("btn").addEventListener("click", function () {
-    getChuckNorrisJoke(config);
+    try {
+        getChuckNorrisJoke(config);
+    } catch (error) {
+        clientError();
+    }
 });
 
 function expensesList(data) {
