@@ -1,5 +1,3 @@
-
-
 window.addEventListener("load", function () {
     const hiddenTxt = document.getElementById("txt");
     hiddenTxt.classList.add("show");
@@ -52,15 +50,14 @@ function clientError() {
     aboutError.style.backgroundColor = "red";
 }
 
-const config = {
-    url: "https://api.chucknorris.io/jokes/random",
-    method: "GET",
-};
+function setConfigurationGetHttp(url, method) {
+    const config = {
+        url: url,
+        method: method,
+    };
 
-const configRepositoriesAPI = {
-    url: "https://api.github.com/search/repositories?q=",
-    method: "GET",
-};
+    return config;
+}
 
 const data = [
     { product: "t-shirt", category: "cloth", price: "$10" },
@@ -69,16 +66,16 @@ const data = [
     { product: "Micro services book", category: "education", price: "$120" },
 ];
 
-const getGithubRepositories = (configRepositoriesAPI) => {
+const getGithubRepositories = (config) => {
     return new Promise((resolve, reject) => {
         const client = new XMLHttpRequest();
 
         const inputValue = document.getElementById("searchInput").value;
 
         if (inputValue == "") {
-            url = configRepositoriesAPI.url + "Javascript";
+            url = config.url + "Javascript";
         } else {
-            url = configRepositoriesAPI.url + inputValue;
+            url = config.url + inputValue;
         }
 
         client.onload = () => {
@@ -109,17 +106,18 @@ const getGithubRepositories = (configRepositoriesAPI) => {
                 }
             
         };
-        client.open(configRepositoriesAPI.method, url);
+        client.open(config.method, url);
         client.send();
     });
 };
 
 const search = document.getElementById("search").addEventListener("click", function () {
+        const config = setConfigurationGetHttp("https://api.github.com/search/repositories?q=", "GET");
         try {
             repositoryList.innerHTML = "";
             showSearchLoader();
             setTimeout(function() {
-                getGithubRepositories(configRepositoriesAPI)
+                getGithubRepositories(config)
                     .then(() => {
                         hideSearchLoader();
                     })
@@ -136,12 +134,6 @@ const getChuckNorrisJoke = (config) => {
         client.onload = () => {
             if (client.status === 200) {
                 const section = document.getElementById("txt");
-                const node = document.getElementById("paragraph");
-
-                if (node) {
-                    section.removeChild(node);
-                }
-
                 const headerSection = section.querySelector("h1");
                 headerSection.textContent = "Chuck Norris Joke";
 
@@ -149,6 +141,7 @@ const getChuckNorrisJoke = (config) => {
                 paragraph.id = "paragraph";
                 paragraph.className = "paragraph";
                 paragraph.textContent = JSON.parse(client.responseText).value;
+                
                 section.appendChild(paragraph);
 
                 resolve(paragraph);
@@ -162,14 +155,14 @@ const getChuckNorrisJoke = (config) => {
 };
 
 document.getElementById("btn").addEventListener("click", function () {
+    const config = setConfigurationGetHttp("https://api.chucknorris.io/jokes/random", "GET");
     try {
-        const existingJoke = document.getElementById("paragraph");
-        if (existingJoke) {
-            existingJoke.remove();
-        }
-
         showJokeLoader();
         setTimeout(function() {
+            const existingJoke = document.getElementById("paragraph");
+            if (existingJoke) {
+                existingJoke.remove();
+            }
             getChuckNorrisJoke(config)
                 .then(() => {
                     hideJokeLoader();
@@ -181,7 +174,7 @@ document.getElementById("btn").addEventListener("click", function () {
     }
 });
 
-function expensesList(data) {
+function getExpensesList(data) {
     const table = document.createElement("table");
     table.setAttribute("id", "table");
     const tableHead = document.createElement("thead");
@@ -230,4 +223,3 @@ const tableGenerator = document.getElementById("tableGenerator").addEventListene
     });
 //TODO: Quitar el sidebar con onblur y onfocus + un boton plegado
 //TODO: Contemplar errores de red
-
