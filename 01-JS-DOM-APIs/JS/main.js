@@ -114,9 +114,7 @@ const getGithubRepositories = (configRepositoriesAPI) => {
     });
 };
 
-const search = document
-    .getElementById("search")
-    .addEventListener("click", function () {
+const search = document.getElementById("search").addEventListener("click", function () {
         try {
             repositoryList.innerHTML = "";
             showSearchLoader();
@@ -176,7 +174,7 @@ document.getElementById("btn").addEventListener("click", function () {
                 .then(() => {
                     hideJokeLoader();
                 })
-        }, 1000);
+        }, 500);
     } catch (error) {
         hideJokeLoader();
         clientError();
@@ -184,12 +182,8 @@ document.getElementById("btn").addEventListener("click", function () {
 });
 
 function expensesList(data) {
-    const existingTable = document.querySelector("table");
-    if (existingTable) {
-        existingTable.remove();
-    }
-
     const table = document.createElement("table");
+    table.setAttribute("id", "table");
     const tableHead = document.createElement("thead");
     const tableRow = document.createElement("tr");
 
@@ -220,10 +214,9 @@ function expensesList(data) {
     document.body.appendChild(table);
 }
 
-const tableGenerator = document
-    .getElementById("tableGenerator")
-    .addEventListener("click", function () {
-        const existingTable = document.querySelector("table");
+const tableGenerator = document.getElementById("tableGenerator").addEventListener("click", function () {
+        const existingTable = document.getElementById("table");
+
         if (existingTable) {
             existingTable.remove();
         }
@@ -232,7 +225,8 @@ const tableGenerator = document
         setTimeout(function() {
             hideTableLoader();
             expensesList(data);
-        }, 1000);
+        }, 500);
+
     });
 //TODO: Quitar el sidebar con onblur y onfocus + un boton plegado
 //TODO: Contemplar errores de red
