@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/01-JS-DOM-APIs/JS/styles.css">
+    <title>Hello World</title>
+</head>
+<body>
+    <section class="about">
+        <h2>Suarez Alejandro</h2>
+        <img src="/00-HTML-CSS-basics/resources/humanUnDraw.png" alt="Developer image">
+        <p>
+            I am a passionate teacher of programming, currently studying for a Higher Technical Degree in Programming, specializing in Backend with Java - Spring | PHP - Laravel | Node.js - Express.js.  I take great pleasure in the learning process and continually seek professional development to achieve set goals.
+        </p>
+        <p>
+            My background as a teacher equips me with didactic tools that enhance my ability to teach, learn, and tackle challenges. I thrive in team environments and strive to contribute meaningfully to achieving shared objectives.
+        </p>
+        <p>
+            From a young age, I have been deeply passionate about technology. During my teenage years, I attended a specialized computing school where I graduated as a Technician. Although I initially diverted from this path to become a physical education teacher, I am now reigniting my passion for technology through a career in development.
+        </p>
+    </section>
+    <section class="hidden-text" id="txt">
+        <h1>Hello World</h1>
+        <div class="jokeLoader" id="jokeLoader" hidden></div>
+    </section>
+    <div>
+        <button id="btn" class="search">Chuck joke!</button>
+        <button onclick="openSidebar()" class="search">Github Repositories</button>
+        <button id="tableGenerator" class="search">Expenses List</button>
+    </div>
+    <aside class="sidebar" id="sidebar">
+        <button class="search closeSidebar" onclick="closeSidebar()">Close</button>
+        <h2>Repositories</h2>
+        <label for="searchInput"></label>
+        <input type="text" id="searchInput" class="searchInput" placeholder="search repositories">
+        <button class="search" id="search">Search</button>
+        <ol class="repositoryList" id="repositoryList"></ol>
+        <div class="searchLoader" id="searchLoader" hidden></div>
+    </aside>
+    <div class="tableLoader" id="tableLoader" hidden></div>
+<script src="/01-JS-DOM-APIs/JS/main.js"></script>
+</body>
+</html>
