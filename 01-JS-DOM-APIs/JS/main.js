@@ -17,14 +17,14 @@ function closeSidebar() {
     }
 }
 
-function showLoader() {
-    const loader = document.getElementById("loader");
-    loader.hidden = false;
+function showJokeLoader() {
+    const jokeLoader = document.getElementById("jokeLoader");
+    jokeLoader.hidden = false;
 }
 
-function hideLoader() {
-    const loader = document.getElementById("loader");
-    loader.hidden = true;
+function hideJokeLoader() {
+    const jokeLoader = document.getElementById("jokeLoader");
+    jokeLoader.hidden = true;
 }
 
 function showSearchLoader() {
@@ -37,6 +37,16 @@ function hideSearchLoader() {
     searchLoader.hidden = true;
 }
 
+function showTableLoader() {
+    const tableLoader = document.getElementById("tableLoader");
+    tableLoader.hidden = false;
+}
+
+function hideTableLoader() {
+    const tableLoader = document.getElementById("tableLoader");
+    tableLoader.hidden = true;
+}
+
 function clientError() {
     const aboutError = document.getElementById("txt");
     aboutError.style.backgroundColor = "red";
@@ -45,7 +55,6 @@ function clientError() {
 const config = {
     url: "https://api.chucknorris.io/jokes/random",
     method: "GET",
-    mode: "cors" 
 };
 
 const configRepositoriesAPI = {
@@ -74,10 +83,8 @@ const getGithubRepositories = (configRepositoriesAPI) => {
 
         client.onload = () => {
             if (client.status === 200) {
-                    const repositoryList =
-                        document.getElementById("repositoryList");
-                    const repositoryItem =
-                        document.getElementsByClassName("repositoryItem");
+                    const repositoryList = document.getElementById("repositoryList");
+                    const repositoryItem = document.getElementsByClassName("repositoryItem");
                     const itemsJSON = JSON.parse(client.responseText).items;
 
                     if (repositoryItem.length) {
@@ -89,10 +96,7 @@ const getGithubRepositories = (configRepositoriesAPI) => {
                         repositoryItem.classList.add("repositoryItem");
 
                         const repositoryItemsLink = document.createElement("a");
-                        repositoryItemsLink.setAttribute(
-                            "href",
-                            itemsJSON[i].owner.html_url
-                        );
+                        repositoryItemsLink.setAttribute("href", itemsJSON[i].owner.html_url);
                         repositoryItemsLink.setAttribute("target", "_blank");
                         repositoryItemsLink.innerText = itemsJSON[i].full_name;
 
@@ -121,10 +125,6 @@ const search = document
                     .then(() => {
                         hideSearchLoader();
                     })
-                    .catch((error) => {
-                        hideSearchLoader();
-                        console.error(error);
-                    });
             }, 1000);
         } catch (error) {
             clientError();
@@ -165,8 +165,20 @@ const getChuckNorrisJoke = (config) => {
 
 document.getElementById("btn").addEventListener("click", function () {
     try {
-        getChuckNorrisJoke(config);
+        const existingJoke = document.getElementById("paragraph");
+        if (existingJoke) {
+            existingJoke.remove();
+        }
+
+        showJokeLoader();
+        setTimeout(function() {
+            getChuckNorrisJoke(config)
+                .then(() => {
+                    hideJokeLoader();
+                })
+        }, 1000);
     } catch (error) {
+        hideJokeLoader();
         clientError();
     }
 });
@@ -216,9 +228,9 @@ const tableGenerator = document
             existingTable.remove();
         }
 
-        showLoader();
+        showTableLoader();
         setTimeout(function() {
-            hideLoader();
+            hideTableLoader();
             expensesList(data);
         }, 1000);
     });

@@ -10,6 +10,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 40px;
 }
 
 .about {
@@ -30,6 +31,10 @@ body {
 }
 
 .hidden-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     opacity: 0;
     color: #fff;
     transition: opacity 2s ease-in;
@@ -166,7 +171,7 @@ th {
     border-color: #fff;
 }
 
-.loader {
+.tableLoader {
     border: 6px solid #f3f3f3;
     border-top: 6px solid #131415;
     border-radius: 50%;
@@ -206,4 +211,22 @@ th {
     border: 2px solid #131415;
     margin: 5px 5px;
     padding: 5px;
+}
+
+.jokeLoader {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #131415;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
