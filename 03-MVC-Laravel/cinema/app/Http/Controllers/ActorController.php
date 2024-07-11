@@ -2,20 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Actor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ActorController extends Controller
 {
 
     public function index()
     {
-        $actors = Actor::orderBy('id', 'asc')->paginate(6);
-        return view("actors.index", compact("actors"));
+        $actors = Actor::orderBy('actor_id', 'asc')->paginate(6);
+        return view('admin.actors.index', compact('actors'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function create ()
+    {
+        return view('admin.actors.create');
+    }
+
     public function submit(Request $req)
     {
         try {
@@ -45,9 +49,13 @@ class ActorController extends Controller
         }
     }
 
-    public function show(string $id)
+    public function show(Actor $actor)
     {
-        //
+        return view('admin.actors.show', compact('actor'));
+    }
+
+    public function edit (Actor $actor) {
+        return view("admin.actors.edit", compact("actor"));
     }
 
     public function update(Request $req, $actorId)
@@ -82,8 +90,18 @@ class ActorController extends Controller
 
     public function destroy(Actor $actor)
     {
-        $actor->delete();
-        return redirect()->route('');
+        try {
+            DB::beginTransaction();
+            $actor->delete();
+            DB::commit();
+            return redirect()->route("admin-actors-index");
+        } catch (QueryException $e) {
+            DB::rollBack();
+            abort(500, 'Error en la base de datos: ' . $e->getMessage());
+        } catch (Exception $e) {
+            DB::rollBack();
+            abort(500, 'Error al guardar datos: ' . $e->getMessage());
+        }
     }
 
 }

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Actor;
+use App\Models\Movie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MovieController extends Controller
 {
@@ -12,8 +15,12 @@ class MovieController extends Controller
     public function index()
     {
         $actors = Actor::all();
-        $movies = Movie::orderBy("id", "asc")->paginate(6);
-        return view("movies.index", compact("movies", "actors"));
+        $movies = Movie::orderBy('id', 'asc')->paginate(6);
+        return view('admin.movies.index', compact('movies', 'actors'));
+    }
+
+    public function create() {
+        return view('admin.movies.create');
     }
 
     public function submit(Request $req)
@@ -121,8 +128,18 @@ class MovieController extends Controller
      */
     public function destroy(Movie $movie)
     {
-        $movie->delete();
-        return redirect()->route("/");
+        try {
+            DB::beginTransaction();
+            $movie->delete();
+            DB::commit();
+            return redirect()->route("admin-movies-index");
+        } catch (QueryException $e) {
+            DB::rollBack();
+            abort(500, 'Error en la base de datos: ' . $e->getMessage());
+        } catch (Exception $e) {
+            DB::rollBack();
+            abort(500, 'Error al guardar datos: ' . $e->getMessage());
+        }
     }
 
         public function addMovieToFavorite(Movie $movie)
