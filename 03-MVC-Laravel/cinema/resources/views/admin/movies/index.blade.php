@@ -1,9 +1,10 @@
 <x-app-layout>
+    {{-- mostrar mensajes de confirmaciones --}}
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-white leading-tight">
             {{ __('Movies Crud') }}
         </h2>
-        <a href="{{ route('admin-movies-create') }}"><button class="btn btn-primary w-40" type="button">Create Actor</button></a>
+        <a href="{{ route('admin-movies-create') }}"><x-primary-button>Create Movie</x-primary-button></a>
     </x-slot>
 
     <div class="py-12">
@@ -28,14 +29,12 @@
                                 <td>{{ $movie->year }}</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                        <a href=""><button type="button"
-                                                class="btn btn-success">Show</button></a>
-                                        <a href=""><button type="button"
-                                                class="btn btn-warning">Edit</button></a>
-                                        <form method="POST" action="">
+                                        <a href=""><x-secondary-button>Show</x-secondary-button></a>
+                                        <a href="{{ route('admin-movies-edit', ['movie' => $movie->movie_id]) }}"><x-secondary-button>Edit</x-secondary-button></a>
+                                        <form method="POST" action="{{ route('admin-movies-delete', ['movie' => $movie->movie_id]) }}">
                                             @method('DELETE')
                                             @csrf
-                                            <a href=""><button type="submit" class="btn btn-danger">Delete</button></a>
+                                            <a href=""><x-danger-button>Delete</x-danger-button></a>
                                         </form>
                                     </div>
                                 </td>

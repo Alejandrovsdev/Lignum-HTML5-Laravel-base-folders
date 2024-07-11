@@ -11,4 +11,9 @@ class MovieActor extends Model
 
     protected $primaryKey = 'movie_actor_id';
     protected $table = 'MovieActor';
+
+    protected $fillable = [
+        'movie_id',
+        'actor_id',
+    ];
 }

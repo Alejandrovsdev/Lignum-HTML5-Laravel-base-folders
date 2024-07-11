@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActorController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Movie;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,7 +35,8 @@ Route::prefix('admin')->group(function () {
 
     Route::get('movies', [MovieController::class, 'index'])->name('admin-movies-index');
     Route::get('movies/create', [MovieController::class, 'create'])->name('admin-movies-create');
-    Route::post('movies/create/submit', [MovieController::class, 'submit']);
-    Route::put('movies/update/{movieId}', [MovieController::class, 'update']);
+    Route::post('movies/create/submit', [MovieController::class, 'submit'])->name('admin-movies-submit');
+    Route::get("movies/edit/{movie}", [MovieController::class, "edit"])->name("admin-movies-edit");
+    Route::put('movies/update/{movie}', [MovieController::class, 'update'])->name('admin-movies-update');
     Route::delete('movies/delete/{movie}', [MovieController::class, 'destroy'])->name('admin-movies-delete');
 });

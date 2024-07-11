@@ -13,6 +13,15 @@ class Movie extends Model
 
     protected $primaryKey = 'movie_id';
 
+    protected $fillable = [
+        'title',
+        'year',
+        'duration',
+        'synopsis',
+        'image',
+        'is_favorite',
+    ];
+
     public function actors()
     {
         return $this->belongsToMany(Actor::class, 'movie_actor');

@@ -3,8 +3,8 @@
         <h2 class="font-semibold text-xl text-white leading-tight">
             {{ __('Actors Crud') }}
         </h2>
-        <a href="{{ route('admin-actors-create') }}"><button class="btn btn-primary w-40" type="button">Create
-                Actor</button></a>
+        <a href="{{ route('admin-actors-create') }}"><x-primary-button>Create
+                Actor</x-primary-button></a>
     </x-slot>
 
     <div class="py-12">
@@ -28,14 +28,14 @@
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                         <a href="{{ route('admin-actors-edit', ['actor' => $actor->actor_id]) }}">
-                                            <button type="button" class="btn btn-warning">Edit</button>
+                                            <x-secondary-button>Edit</x-secondary-button>
                                         </a>
                                         <form method="POST"
                                             action="{{ route('admin-actors-delete', ['actor' => $actor->actor_id]) }}">
                                             @method('DELETE')
                                             @csrf
                                             <a href="">
-                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                                <x-danger-button>Delete</x-danger-button>
                                             </a>
                                         </form>
                                     </div>

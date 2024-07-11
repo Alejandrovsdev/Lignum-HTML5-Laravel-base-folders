@@ -22,9 +22,9 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <x-primary-button class="ms-4" type="submit">
+            <x-secondary-button class="ms-4" type="submit">
                 {{ __('Update') }}
-            </x-primary-button>
+            </x-secondary-button>
         </div>
     </form>
 </x-guest-layout>
