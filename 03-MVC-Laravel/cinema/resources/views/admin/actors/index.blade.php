@@ -27,9 +27,6 @@
                                 <td>{{ $actor->birthdate }}</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                        <a href="{{ route('admin-actors-show', ['actor' => $actor->actor_id]) }}">
-                                            <button type="button" class="btn btn-success">Show</button>
-                                        </a>
                                         <a href="{{ route('admin-actors-edit', ['actor' => $actor->actor_id]) }}">
                                             <button type="button" class="btn btn-warning">Edit</button>
                                         </a>

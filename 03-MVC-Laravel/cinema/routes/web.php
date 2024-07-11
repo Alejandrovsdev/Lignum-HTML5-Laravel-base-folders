@@ -23,14 +23,13 @@ Route::get('/', function () {
 Route::prefix('admin')->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard');
-    })->name('admin.dashboard');
+    })->name('admin-dashboard');
 
     Route::get('actors', [ActorController::class, 'index'])->name('admin-actors-index');
     Route::get('actors/create', [ActorController::class, 'create'])->name('admin-actors-create');
-    Route::post('actors/create/submit', [ActorController::class, 'submit']);
-    Route::get('actors/show/{actor}', [ActorController::class, 'show'])->name('admin-actors-show');
+    Route::post('actors/create/submit', [ActorController::class, 'submit'])->name('admin-actors-submit');;
     Route::get("actors/edit/{actor}", [ActorController::class, "edit"])->name("admin-actors-edit");
-    Route::put('actors/update/{actorId}', [ActorController::class, 'update']);
+    Route::put('actors/update/{actor}', [ActorController::class, 'update'])->name("admin-actors-update");
     Route::delete('actors/delete/{actor}', [ActorController::class, 'destroy'])->name('admin-actors-delete');
 
     Route::get('movies', [MovieController::class, 'index'])->name('admin-movies-index');

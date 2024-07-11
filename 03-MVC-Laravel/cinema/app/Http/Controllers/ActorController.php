@@ -34,12 +34,12 @@ class ActorController extends Controller
                 'actor_birthdate.required' => 'the actor birth date is required',
             ]);
 
-
             Actor::create([
                 'name' => $validateForm['actor_name'],
                 'birthdate' => $validateForm['actor_birthdate'],
             ]);
             DB::commit();
+            return redirect()->route('admin-actors-index');
         } catch (QueryException $e) {
             DB::rollBack();
             abort(500, 'Error en la base de datos: ' . $e->getMessage());
@@ -49,16 +49,11 @@ class ActorController extends Controller
         }
     }
 
-    public function show(Actor $actor)
-    {
-        return view('admin.actors.show', compact('actor'));
-    }
-
     public function edit (Actor $actor) {
         return view("admin.actors.edit", compact("actor"));
     }
 
-    public function update(Request $req, $actorId)
+    public function update(Request $req, Actor $actor)
     {
         try {
             DB::beginTransaction();
@@ -72,13 +67,12 @@ class ActorController extends Controller
                 'actor_birthdate.required' => 'the actor birth date is required',
             ]);
 
-            $actor = Actor::where('actor_id', $actorId)->firstOrFail();
-
             $actor->update([
                 'name' => $validateForm['actor_name'],
                 'birthdate' => $validateForm['actor_birthdate'],
             ]);
             DB::commit();
+            return redirect()->route('admin-actors-index');
         } catch (QueryException $e) {
             DB::rollBack();
             abort(500, 'Error en la base de datos: ' . $e->getMessage());
@@ -94,7 +88,7 @@ class ActorController extends Controller
             DB::beginTransaction();
             $actor->delete();
             DB::commit();
-            return redirect()->route("admin-actors-index");
+            return redirect()->route('admin-actors-index');
         } catch (QueryException $e) {
             DB::rollBack();
             abort(500, 'Error en la base de datos: ' . $e->getMessage());
