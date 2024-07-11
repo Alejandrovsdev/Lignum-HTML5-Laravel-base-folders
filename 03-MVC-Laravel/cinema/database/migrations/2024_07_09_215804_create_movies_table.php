@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('synopsis');
             $table->string('image')->nullable();
             $table->boolean('is_favorite')->default(false);
-            $table->unsignedBigInteger('actor_principal_id');
+            $table->unsignedBigInteger('principal_actor_id');
             $table->foreign('principal_actor_id')->references('actor_id')->on('actors')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
