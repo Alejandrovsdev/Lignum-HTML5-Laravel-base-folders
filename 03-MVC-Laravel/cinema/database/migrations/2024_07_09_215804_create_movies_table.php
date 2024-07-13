@@ -18,11 +18,12 @@ return new class extends Migration
             $table->integer('duration');
             $table->text('synopsis');
             $table->string('image')->nullable();
-            $table->boolean('is_favorite')->default(false);
+            $table->boolean('is_favorite')->default(false); //TODO: tabla aparte y nueva tabla con usuario
             $table->unsignedBigInteger('principal_actor_id')->nullable();
-            $table->foreign('principal_actor_id')->references('actor_id')->on('actors')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('principal_actor_id')->references('actor_id')->on('actors')->onDelete('cascade');
         });
     }
 

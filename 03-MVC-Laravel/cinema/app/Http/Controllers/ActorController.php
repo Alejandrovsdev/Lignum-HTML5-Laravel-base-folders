@@ -39,10 +39,12 @@ class ActorController extends Controller
                 'birthdate' => $validateForm['actor_birthdate'],
             ]);
             DB::commit();
+            //TODO: Session::put('create-confirmation');
             return redirect()->route('admin-actors-index');
         } catch (QueryException $e) {
+            //TODO: añadir Logs
             DB::rollBack();
-            abort(500, 'Error en la base de datos: ' . $e->getMessage());
+            abort(500, 'Error en la base de datos: ' . $e->getMessage()); //TODO: replantear mensajes de errores
         } catch (Exception $e) {
             DB::rollBack();
             abort(500, 'Error al guardar datos: ' . $e->getMessage());
@@ -72,6 +74,7 @@ class ActorController extends Controller
                 'birthdate' => $validateForm['actor_birthdate'],
             ]);
             DB::commit();
+            //TODO: Session::put('update confirm');
             return redirect()->route('admin-actors-index');
         } catch (QueryException $e) {
             DB::rollBack();
@@ -86,7 +89,7 @@ class ActorController extends Controller
     {
         try {
             DB::beginTransaction();
-            $actor->delete();
+            $actor->delete(); //TODO: Replantear
             DB::commit();
             return redirect()->route('admin-actors-index');
         } catch (QueryException $e) {

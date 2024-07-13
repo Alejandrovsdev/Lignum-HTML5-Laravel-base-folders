@@ -11,15 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('MovieActor', function (Blueprint $table) {
+
+        //TODO: Cambiar nombre a reparto
+        Schema::create('movie_actor', function (Blueprint $table) {
             $table->bigIncrements('movie_actor_id');
             $table->unsignedBigInteger('movie_id');
             $table->unsignedBigInteger('actor_id');
+            /* $table->boolean('is_principal_actor')->defaul(false); */
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('movie_id')->references('movie_id')->on('movies')->onDelete('cascade');
             $table->foreign('actor_id')->references('actor_id')->on('actors')->onDelete('cascade');
-
         });
     }
 

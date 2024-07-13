@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('actors', function (Blueprint $table) {
             $table->bigIncrements('actor_id');
             $table->string('name', 50);
-            $table->date('birthdate')->unique();
+            $table->date('birthdate');
             $table->timestamps();
             $table->softDeletes();
         });

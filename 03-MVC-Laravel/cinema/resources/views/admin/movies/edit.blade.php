@@ -26,13 +26,12 @@
             <x-text-input id="movie_synopsis" class="block mt-1 w-full" type="text" name="movie_synopsis" value="{{ $movie->synopsis }}" required/>
             <x-input-error :messages="$errors->get('movie_synopsis')" class="mt-2" />
         </div>
-
         <div class="mt-4">
             <x-input-label for="movie_principal_actor" :value="__('Principal Actor')" />
             <select name="movie_principal_actor" id="movie_principal_actor" class="block mt-1 w-full" required>
                 <option value="">{{  __('Select an actor') }}</option>
                 @foreach ($actors as $actor)
-                    <option value="{{ $actor->actor_id }}">{{ $actor->name }}</option>
+                    <option value="{{ $actor->actor_id }}" @selected($movie->principalActor->actor_id == $actor->actor_id)>{{ $actor->name }}</option>
                 @endforeach
             </select>
             <x-input-error :messages="$errors->get('movie_principal_actor')" class="mt-2" />

@@ -34,7 +34,7 @@ class MovieController extends Controller
                 'movie_duration' => 'required', 'regex:/^\d{1,3}(:[0-5]\d)?$/', // Valida "hh:mm" o solo minutos
                 'movie_synopsis' => 'required|string',
                 'movie_image' => 'required|file|mimes:jpeg,png,jpg|max:2048',
-                'movie_principal_actor' => 'required|string',
+                'movie_principal_actor' => 'required',
             ], [
                 'movie_title.required' => 'the movie title is required',
                 'movie_title.min' => 'the movie title has to be at least 2 characters',
@@ -53,11 +53,11 @@ class MovieController extends Controller
 
             ]);
 
-            //TODO: Hacer que al guardar la imagen, normalice el nombre en la base de datos para no guardar con espacios o caracteres raros.
-
             if ($req->hasFile('movie_image')) {
                 $file = $req->file('movie_image');
                 $imageName = time() . '_' . $file->getClientOriginalName();
+                $imageName = str_replace(' ', '_', $imageName);
+                $imageName = str_replace('#', '', $imageName);
                 $path = $file->storeAs('public/images', $imageName);
                 $imageUrl = Storage::url($path);
             }
@@ -67,15 +67,17 @@ class MovieController extends Controller
                 'year' => $validateForm['movie_year'],
                 'duration' => $validateForm['movie_duration'],
                 'synopsis' => $validateForm['movie_synopsis'],
+                'principal_actor_id' => $validateForm['movie_principal_actor'],
                 'image' => $imageUrl,
             ]);
+
             MovieActor::create([
                 'movie_id' => $movie->movie_id,
                 'actor_id' => $validateForm['movie_principal_actor'],
             ]);
 
-
             DB::commit();
+            //TODO: Session put para mensajes
             return redirect()->route("admin-movies-index");
         } catch (QueryException $e) {
             DB::rollBack();
@@ -107,7 +109,7 @@ class MovieController extends Controller
                 'movie_duration' => 'required', 'regex:/^\d{1,3}(:[0-5]\d)?$/', // Valida "hh:mm" o solo minutos
                 'movie_synopsis' => 'required|string',
                 'movie_image' => 'required|file|mimes:jpeg,png,jpg|max:2048',
-                'movie_principal_actor' => 'required|string',
+                'movie_principal_actor' => 'required',
             ], [
                 'movie_title.required' => 'the movie title is required',
                 'movie_title.min' => 'the movie title has to be at least 2 characters',
@@ -121,17 +123,18 @@ class MovieController extends Controller
             if ($req->hasFile('movie_image')) {
                 $file = $req->file('movie_image');
                 $imageName = time() . '_' . $file->getClientOriginalName();
+                $imageName = str_replace(' ', '_', $imageName);
+                $imageName = str_replace('#', '', $imageName);
                 $path = $file->storeAs('public/images', $imageName);
                 $imageUrl = Storage::url($path);
             }
-
-            //TODO: Hacer que al guardar la imagen, normalice el nombre en la base de datos para no guardar con espacios o caracteres raros.
 
             $movie->update([
                 'title' => $validateForm['movie_title'],
                 'year' => $validateForm['movie_year'],
                 'duration' => $validateForm['movie_duration'],
                 'synopsis' => $validateForm['movie_synopsis'],
+                'principal_actor_id' => $validateForm['movie_principal_actor'],
                 'image' => $imageUrl,
             ]);
 
@@ -152,9 +155,6 @@ class MovieController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Movie $movie)
     {
         try {

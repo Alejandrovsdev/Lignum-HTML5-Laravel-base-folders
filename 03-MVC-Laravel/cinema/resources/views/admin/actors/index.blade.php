@@ -27,7 +27,7 @@
                                 <td>{{ $actor->birthdate }}</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                        <a href="{{ route('admin-actors-edit', ['actor' => $actor->actor_id]) }}">
+                                        <a class="me-3" href="{{ route('admin-actors-edit', ['actor' => $actor->actor_id]) }}">
                                             <x-secondary-button>Edit</x-secondary-button>
                                         </a>
                                         <form method="POST"
@@ -42,7 +42,7 @@
                                 </td>
                             </tr>
                         @empty
-                            <p>There's not actors register</p>
+                            <td colspan="5" class="text-center">There's not actors register</td>
                         @endforelse
                     </tbody>
                 </table>

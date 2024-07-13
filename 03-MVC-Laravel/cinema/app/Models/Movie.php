@@ -19,6 +19,7 @@ class Movie extends Model
         'duration',
         'synopsis',
         'image',
+        'principal_actor_id',
         'is_favorite',
     ];
 
@@ -29,6 +30,6 @@ class Movie extends Model
 
     public function principalActor()
     {
-        return $this->belongsTo(Actor::class, 'actor_principal_id');
+        return $this->belongsTo(Actor::class, 'principal_actor_id', 'actor_id', 'movie_id');
     }
 }
