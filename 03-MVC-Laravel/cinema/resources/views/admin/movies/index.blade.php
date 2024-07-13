@@ -31,7 +31,7 @@
                                 <td>{{ $movie->principalActor->name }}</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                        <a href="" class="me-3"><x-secondary-button>Show</x-secondary-button></a>
+                                        <a href="{{ route('admin-movies-show', ['movie' => $movie->movie_id]) }}" class="me-3"><x-secondary-button>Show</x-secondary-button></a>
                                         <a href="{{ route('admin-movies-edit', ['movie' => $movie->movie_id]) }}" class="me-3"><x-secondary-button>Edit</x-secondary-button></a>
                                         <form method="POST" action="{{ route('admin-movies-delete', ['movie' => $movie->movie_id]) }}">
                                             @method('DELETE')
@@ -42,7 +42,7 @@
                                 </td>
                             </tr>
                         @empty
-                            <td colspan="5" class="text-center">There's not actors register</td>
+                            <td colspan="6" class="text-center">There's not actors register</td>
                         @endforelse
                     </tbody>
                 </table>
