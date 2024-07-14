@@ -180,18 +180,18 @@ class MovieController extends Controller
     public function addMovieToFavorite(Movie $movie)
     {
         $movie->update(['is_favorite' => 1]);
-        return response()->json(['message' => 'Película añadida a favoritos.', 'is_favorite' => 1]);
+        return response()->json(['message' => 'Movie added to favorites.', 'is_favorite' => 1]);
     }
 
     public function removeMovieFromFavorite(Movie $movie)
     {
         $movie->update(['is_favorite' => 0]);
-        return response()->json(['message' => 'Película quitada de favoritos.', 'is_favorite' => 0]);
+        return response()->json(['message' => 'Movie removed from favorites.', 'is_favorite' => 0]);
     }
 
     public function showFavoritesMovies()
     {
         $favorites = Movie::where('is_favorite', 1)->get();
-        return response()->json(['is_favorite' => $favorites]);
+        return response()->json(['favorites_movies' => $favorites]);
     }
 }
