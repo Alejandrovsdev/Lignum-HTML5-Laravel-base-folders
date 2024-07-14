@@ -22,13 +22,13 @@
 
         <div>
             <x-input-label for="movie_synopsis" :value="__('Movie Synopsis')" />
-            <x-text-input id="movie_synopsis" class="block mt-1 w-full" type="text" name="movie_synopsis" required/>
+            <textarea id="movie_synopsis" class="block text-gray-300 bg-gray-900 mt-1 w-full rounded-md shadow-sm border-gray-600focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 focus:ring-opacity-50" name="movie_synopsis" required></textarea>
             <x-input-error :messages="$errors->get('movie_synopsis')" class="mt-2" />
         </div>
 
         <div class="mt-4">
             <x-input-label for="movie_principal_actor" :value="__('Principal Actor')" />
-            <select name="movie_principal_actor" id="movie_principal_actor" class="block mt-1 w-full" required>
+            <select name="movie_principal_actor" id="movie_principal_actor" class="block mt-1 w-full bg-gray-900 text-gray-300" required>
                 <option value="">{{ __('Select an actor') }}</option>
                 @foreach ($actors as $actor)
                     <option value="{{ $actor->actor_id }}">{{ $actor->name }}</option>
