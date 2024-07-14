@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Storage;
 
 class MovieController extends Controller
 {
+    public function userIndex() {
+        $actors = Actor::all();
+        $movies = Movie::all();
+        return view('users.index', compact('actors', 'movies'));
+    }
+
     public function index()
     {
         $actors = Actor::all();
@@ -145,7 +151,7 @@ class MovieController extends Controller
 
 
             DB::commit();
-            return redirect()->route("admin-movies-index");
+            return redirect()->route('admin-movies-index');
         } catch (QueryException $e) {
             DB::rollBack();
             abort(500, 'Error en la base de datos: ' . $e->getMessage());
@@ -161,7 +167,7 @@ class MovieController extends Controller
             DB::beginTransaction();
             $movie->delete();
             DB::commit();
-            return redirect()->route("admin-movies-index");
+            return redirect()->route('admin-movies-index');
         } catch (QueryException $e) {
             DB::rollBack();
             abort(500, 'Error en la base de datos: ' . $e->getMessage());
@@ -173,19 +179,19 @@ class MovieController extends Controller
 
     public function addMovieToFavorite(Movie $movie)
     {
-        $movie->update(["is_favorite" => 1]);
-        return response()->json(["message" => "Película añadida a favoritos.", "is_favorite" => 1]);
+        $movie->update(['is_favorite' => 1]);
+        return response()->json(['message' => 'Película añadida a favoritos.', 'is_favorite' => 1]);
     }
 
     public function removeMovieFromFavorite(Movie $movie)
     {
-        $movie->update(["is_favorite" => 0]);
-        return response()->json(["message" => "Película quitada de favoritos.", "is_favorite" => 0]);
+        $movie->update(['is_favorite' => 0]);
+        return response()->json(['message' => 'Película quitada de favoritos.', 'is_favorite' => 0]);
     }
 
     public function showFavoritesMovies()
     {
         $favorites = Movie::where('is_favorite', 1)->get();
-        return response()->json(["is_favorite" => $favorites]);
+        return response()->json(['is_favorite' => $favorites]);
     }
 }
