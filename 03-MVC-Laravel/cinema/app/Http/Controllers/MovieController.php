@@ -11,26 +11,32 @@ use Illuminate\Support\Facades\Storage;
 
 class MovieController extends Controller
 {
-    public function userIndex() {
+    public function showDashboardActorsAndMovies() {
+        $actors = Actor::orderBy('actor_id', 'asc')->paginate(6);
+        $movies = Movie::orderBy('movie_id', 'asc')->paginate(6);
+        return view('admin.dashboard', compact('actors', 'movies'));
+    }
+
+    public function showUserMoviesAndActors() {
         $actors = Actor::all();
         $movies = Movie::all();
         return view('users.index', compact('actors', 'movies'));
     }
 
-    public function index()
+    public function showAdminMoviesAndActors()
     {
         $actors = Actor::all();
         $movies = Movie::orderBy('movie_id', 'asc')->paginate(6);
         return view('admin.movies.index', compact('movies', 'actors'));
     }
 
-    public function create()
+    public function showCreateMovieForm()
     {
         $actors = Actor::all();
         return view('admin.movies.create', compact('actors'));
     }
 
-    public function submit(Request $req)
+    public function CreateMovie(Request $req)
     {
         try {
             DB::beginTransaction();
@@ -94,18 +100,18 @@ class MovieController extends Controller
         }
     }
 
-    public function show(Movie $movie)
+    public function showMovieDetails(Movie $movie)
     {
         return view('admin.movies.show', compact('movie'));
     }
 
-    public function edit(Movie $movie)
+    public function showEditMovieForm(Movie $movie)
     {
         $actors = Actor::all();
         return view('admin.movies.edit', compact('actors', 'movie'));
     }
 
-    public function update(Request $req, Movie $movie)
+    public function updateMovie(Request $req, Movie $movie)
     {
         try {
             DB::beginTransaction();
@@ -161,7 +167,7 @@ class MovieController extends Controller
         }
     }
 
-    public function destroy(Movie $movie)
+    public function destroyMovie(Movie $movie)
     {
         try {
             DB::beginTransaction();

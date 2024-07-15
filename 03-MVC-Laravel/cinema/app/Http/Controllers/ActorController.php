@@ -9,18 +9,18 @@ use Illuminate\Support\Facades\DB;
 class ActorController extends Controller
 {
 
-    public function index()
+    public function showAdminActors()
     {
         $actors = Actor::orderBy('actor_id', 'asc')->paginate(6);
         return view('admin.actors.index', compact('actors'));
     }
 
-    public function create ()
+    public function showCreateActorForm()
     {
         return view('admin.actors.create');
     }
 
-    public function submit(Request $req)
+    public function createActor(Request $req)
     {
         try {
             DB::beginTransaction();
@@ -51,11 +51,11 @@ class ActorController extends Controller
         }
     }
 
-    public function edit (Actor $actor) {
+    public function showEditActorForm(Actor $actor) {
         return view("admin.actors.edit", compact("actor"));
     }
 
-    public function update(Request $req, Actor $actor)
+    public function updateActor(Request $req, Actor $actor)
     {
         try {
             DB::beginTransaction();
@@ -85,7 +85,7 @@ class ActorController extends Controller
         }
     }
 
-    public function destroy(Actor $actor)
+    public function destroyActor(Actor $actor)
     {
         try {
             DB::beginTransaction();
