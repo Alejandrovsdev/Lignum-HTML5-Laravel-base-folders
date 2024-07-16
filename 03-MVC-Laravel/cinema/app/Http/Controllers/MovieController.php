@@ -105,7 +105,7 @@ class MovieController extends Controller
         return view('admin.movies.show', compact('movie'));
     }
 
-    public function showEditMovieForm(Movie $movie)
+    public function showEditMovieForm(Movie $movie) // TODO: Corregir
     {
         $actors = Actor::all();
         return view('admin.movies.edit', compact('actors', 'movie'));
@@ -113,6 +113,7 @@ class MovieController extends Controller
 
     public function updateMovie(Request $req, Movie $movie)
     {
+
         try {
             DB::beginTransaction();
             $validateForm = $req->validate([
@@ -120,7 +121,7 @@ class MovieController extends Controller
                 'movie_year' => 'required|min:1895|max:2050|numeric',
                 'movie_duration' => 'required', 'regex:/^\d{1,3}(:[0-5]\d)?$/', // Valida "hh:mm" o solo minutos
                 'movie_synopsis' => 'required|string',
-                'movie_image' => 'required|file|mimes:jpeg,png,jpg|max:2048',
+                'movie_image' => 'nullable|file|image|max:2048',
                 'movie_principal_actor' => 'required',
             ], [
                 'movie_title.required' => 'the movie title is required',
@@ -131,6 +132,8 @@ class MovieController extends Controller
                 'movie_year.max' => 'the movie year must be at most 2050',
                 'movie_duration.required' => 'the movie duration is required',
             ]);
+
+            $imageUrl = $movie->image;
 
             if ($req->hasFile('movie_image')) {
                 $file = $req->file('movie_image');
@@ -154,7 +157,6 @@ class MovieController extends Controller
                 ['movie_id' => $movie->movie_id],
                 ['actor_id' => $validateForm['movie_principal_actor']]
             );
-
 
             DB::commit();
             return redirect()->route('admin-movies-index');

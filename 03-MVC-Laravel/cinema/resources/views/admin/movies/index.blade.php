@@ -28,7 +28,7 @@
                                 <td>{{ $movie->title }}</td>
                                 <td>{{ $movie->duration }}</td>
                                 <td>{{ $movie->year }}</td>
-                                <td>{{ $movie->principalActor->name }}</td>
+                                <td>{{ $movie->principalActor->name ?? $movie->principalActor()->withTrashed()->first()->name }}</td> {{-- estudio --}}
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                         <a href="{{ route('admin-movies-show', ['movie' => $movie->movie_id]) }}" class="me-3"><x-secondary-button>Show</x-secondary-button></a>

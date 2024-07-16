@@ -23,7 +23,7 @@
 
         <div>
             <x-input-label for="movie_synopsis" :value="__('Movie Synopsis')" />
-            <textarea id="movie_synopsis" class="block text-gray-300 bg-gray-900 mt-1 w-full rounded-md shadow-sm border-gray-600focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 focus:ring-opacity-50" name="movie_synopsis" placeholder="{{ $movie->synopsis }}" required></textarea>
+            <textarea id="movie_synopsis" class="block text-gray-300 bg-gray-900 mt-1 w-full rounded-md shadow-sm border-gray-600focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 focus:ring-opacity-50" name="movie_synopsis" required>{{ $movie->synopsis }}</textarea>
             <x-input-error :messages="$errors->get('movie_synopsis')" class="mt-2" />
         </div>
 
@@ -39,13 +39,12 @@
         </div>
 
         {{-- TODO: Hacer que me traiga el valor del actor principal seleccionado en la pelicula --}}
-
         <div class="mt-4">
-            <x-input-label for="movie_image" :value="__('Movie Image')" />
+            <x-input-label for="movie_image" :value="__('Movie Image')"/>
             @if ($movie->image)
                 <img src="{{ asset($movie->image) }}" alt="Current Movie Image" class="block mt-1 w-full mb-4" style="max-width: 300px; max-height:300px;">
             @endif
-            <x-text-input id="movie_image" class="block mt-1 w-full" type="file" name="movie_image" value="{{ $movie->image }}" required />
+            <x-text-input id="movie_image" class="block mt-1 w-full" type="file" name="movie_image" value="{{ $movie->image }}"/>
             <x-input-error :messages="$errors->get('movie_image')" class="mt-2" />
         </div>
 
