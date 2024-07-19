@@ -1,5 +1,7 @@
 <?php
 
+use App\Livewire\Actors\CreateActors;
+use App\Livewire\Actors\ListActors;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,12 +17,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+Route::prefix('admin')->group(function () {
+    Route::view('/', 'dashboard')->name('admin-dashboard');
 
-Route::view('profile', 'profile')
-    ->middleware(['auth'])
-    ->name('profile');
+    Route::prefix('actors')->group(function () {
+        Route::get('/', ListActors::class)->name('admin-list-actors');
+    });
 
-require __DIR__.'/auth.php';
+    Route::prefix('movies')->group(function () {
+    });
+
+});

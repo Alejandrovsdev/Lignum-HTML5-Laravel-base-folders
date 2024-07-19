@@ -39,7 +39,6 @@ class MovieController extends Controller
     public function CreateMovie(Request $req)
     {
         try {
-            DB::beginTransaction();
             $validateForm = $req->validate([
                 'movie_title' => 'required|min:2|max:50|string',
                 'movie_year' => 'required|min:1895|max:2050|numeric',
@@ -64,6 +63,8 @@ class MovieController extends Controller
                 'movie_principal_actor.exists' => 'The selected actor does not exist',
 
             ]);
+
+            DB::beginTransaction();
 
             if ($req->hasFile('movie_image')) {
                 $file = $req->file('movie_image');
@@ -115,7 +116,6 @@ class MovieController extends Controller
     {
 
         try {
-            DB::beginTransaction();
             $validateForm = $req->validate([
                 'movie_title' => 'required|min:2|max:50|string',
                 'movie_year' => 'required|min:1895|max:2050|numeric',
@@ -132,6 +132,7 @@ class MovieController extends Controller
                 'movie_year.max' => 'the movie year must be at most 2050',
                 'movie_duration.required' => 'the movie duration is required',
             ]);
+            DB::beginTransaction();
 
             $imageUrl = $movie->image;
 
