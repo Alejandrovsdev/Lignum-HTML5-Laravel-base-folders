@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('movies', function (Blueprint $table) {
             $table->bigIncrements('MovieID');
-            $table->string('title', 50);
-            $table->integer('duration');
-            $table->text('synopsis');
-            $table->string('image')->nullable();
-            $table->boolean('is_favorite')->default(false);
+            $table->string('Title', 50);
+            $table->integer('Duration');
+            $table->text('Synopsis');
+            $table->string('Image')->nullable();
+            $table->boolean('IsFavorite')->default(false);
             $table->timestamps();
-            $table->unsignedBigInteger('principal_actor_id')->nullable();
+            $table->unsignedBigInteger('PrincipalActorID')->nullable();
             $table->softDeletes();
 
-            $table->foreign('principal_actor_id')->references('ActorID')->on('actors')->onDelete('cascade');
+            $table->foreign('PrincipalActorID')->references('ActorID')->on('actors')->onDelete('cascade');
         });
     }
 

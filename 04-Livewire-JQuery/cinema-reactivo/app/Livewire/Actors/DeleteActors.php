@@ -3,6 +3,7 @@
 namespace App\Livewire\Actors;
 
 use App\Models\Actor;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class DeleteActors extends Component
@@ -19,14 +20,14 @@ class DeleteActors extends Component
         $this->actorId = $actor->ActorID;
     }
 
-    public function deleteActor($actorId)
+    public function deleteActor()
     {
         try {
             DB::beginTransaction();
 
-            $actor = Actor::findOrFail($actorId);
+            $actor = Actor::findOrFail($this->actorId);
             $actor->delete();
-            $this->emit('actorDeleted');
+            $this->dispatch('actorDeleted');
 
             DB::commit();
         } catch (QueryException $e) {

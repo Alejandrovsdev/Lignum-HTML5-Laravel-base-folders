@@ -6,7 +6,8 @@
     </x-slot>
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <x-primary-button class="bg-green-600 mb-3">Create Actor</x-primary-button>
+        <x-primary-button class="bg-green-600 mb-3" data-bs-toggle="modal" data-bs-target="#createActorModal">Create Actor</x-primary-button>
+
         <div class="dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg text-white">
             <table class="table text-white">
                 <thead>
@@ -21,20 +22,12 @@
                     @forelse ($actores as $actor)
                         <tr>
                             <th scope="row">{{ $actor->ActorID }}</th>
-                            <td>{{ $actor->name }}</td>
-                            <td>{{ $actor->birthdate }}</td>
+                            <td>{{ $actor->Name }}</td>
+                            <td>{{ $actor->Birthdate }}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                    <a class="me-3" href="">
-                                        <x-secondary-button>Edit</x-secondary-button>
-                                    </a>
-                                    <form method="POST" action="">
-                                        @method('DELETE')
-                                        @csrf
-                                        <a href="">
-                                            <x-danger-button>Delete</x-danger-button>
-                                        </a>
-                                    </form>
+                                    <x-alert-button class="me-3" data-bs-toggle="modal" data-bs-target="#updateActorModal" wire:click="$dispatch('openUpdateActorModal', { actorId: {{ $actor->ActorID }} })">edit</x-alert-button>
+                                    <x-danger-button data-bs-toggle="modal" data-bs-target="#deleteActorModal" wire:click="$dispatch('openDeleteActorModal', { actorId: {{ $actor->ActorID }} })">X</x-danger-button>
                                 </div>
                             </td>
                         </tr>
@@ -47,4 +40,8 @@
 
         </div>
     </div>
+    @livewire('actors.create-actors')
+    @livewire('actors.update-actors')
+    @livewire('actors.delete-actors')
 </div>
+

@@ -5,14 +5,13 @@ namespace App\Livewire\Actors;
 use App\Models\Actor;
 use Exception;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class CreateActors extends Component
 {
-    #[Validate]
-    public $name;
 
-    #[Validate]
+    public $name;
     public $birthdate;
 
     public function createActor () {
@@ -30,11 +29,11 @@ class CreateActors extends Component
             DB::beginTransaction();
 
             $actor = new Actor();
-            $actor->name = $validateData['actor_name'];
-            $actor->birthdate = $validateData['actor_birthdate'];
-
+            $actor->Name = $validateData['name'];
+            $actor->Birthdate = $validateData['birthdate'];
             $actor->save();
-            $this->emit('actorCreated');
+            $this->dispatch('actorCreated');
+
             DB::commit();
         } catch (QueryException $e) {
             DB::rollback();

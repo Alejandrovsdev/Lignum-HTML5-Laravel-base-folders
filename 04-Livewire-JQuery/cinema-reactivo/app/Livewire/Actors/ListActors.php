@@ -18,10 +18,6 @@ class ListActors extends Component
         'actorDeleted' => 'refreshActors',
     ];
 
-    public function mount() {
-        $this->refreshActors();
-    }
-
     public function refreshActors() {
         $this->actors = Actor::orderBy('ActorID', 'asc')->get();
     }

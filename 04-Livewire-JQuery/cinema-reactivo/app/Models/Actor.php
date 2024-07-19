@@ -15,7 +15,7 @@ class Actor extends Model
 
     public function principalMovies()
     {
-        return $this->hasMany(Movie::class, 'principal_actor_id');
+        return $this->hasMany(Movie::class, 'PrincipalActorID');
     }
 
     protected $casts = [

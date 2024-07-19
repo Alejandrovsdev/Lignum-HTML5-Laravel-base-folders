@@ -5,31 +5,26 @@ namespace App\Livewire\Actors;
 use App\Models\Actor;
 use Exception;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class UpdateActors extends Component
 {
     public $actorId;
-
-    #[Validate]
     public $name;
-
-    #[Validate]
     public $birthdate;
 
-    protected $listeners = [
-        'openUpdateActorModal' => 'loadActor'
-    ];
+    protected $listeners = ['openUpdateActorModal' => 'loadActor'];
 
     public function loadActor($actorId)
     {
         $actor = Actor::findOrFail($actorId);
         $this->actorId = $actor->ActorID;
-        $this->name = $actor->name;
-        $this->birthdate = $actor->birthdate;
+        $this->name = $actor->Name;
+        $this->birthdate = $actor->Birthdate;
     }
 
-    public function updateActor($actorId) {
+    public function updateActor() {
         try {
             $validateData = $this->validate([
                 'name' => 'required|string|max:50|min:3',
@@ -43,11 +38,12 @@ class UpdateActors extends Component
 
             DB::beginTransaction();
 
-            $actor = Actor::findOrFail($actorId);
-            $actor->name = $validateData['name'];
-            $actor->birthdate = $validateData['birthdate'];
+            $actor = Actor::findOrFail($this->actorId);
+            $actor->Name = $validateData['name'];
+            $actor->Birthdate = $validateData['birthdate'];
 
             $actor->save();
+            $this->dispatch('actorUpdated');
             DB::commit();
         } catch (QueryException $e) {
             DB::rollback();

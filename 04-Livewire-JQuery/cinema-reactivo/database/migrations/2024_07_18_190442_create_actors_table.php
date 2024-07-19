@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('actors', function (Blueprint $table) {
             $table->bigIncrements('ActorID');
-            $table->string('name', 50);
-            $table->date('birthdate');
+            $table->string('Name', 50);
+            $table->date('Birthdate');
             $table->timestamps();
             $table->softDeletes();
         });

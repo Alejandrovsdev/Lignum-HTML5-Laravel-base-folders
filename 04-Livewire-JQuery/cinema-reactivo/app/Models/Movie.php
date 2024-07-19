@@ -13,6 +13,6 @@ class Movie extends Model
 
     public function principalActor()
     {
-        return $this->belongsTo(Actor::class, 'principal_actor_id', 'ActorID', 'MovieID');
+        return $this->belongsTo(Actor::class, 'PrincipalActorID', 'ActorID', 'MovieID');
     }
 }
