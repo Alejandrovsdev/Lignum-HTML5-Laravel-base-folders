@@ -20,7 +20,7 @@
                 <tbody>
                     @forelse ($actores as $actor)
                         <tr>
-                            <th scope="row">{{ $actor->actor_id }}</th>
+                            <th scope="row">{{ $actor->ActorID }}</th>
                             <td>{{ $actor->name }}</td>
                             <td>{{ $actor->birthdate }}</td>
                             <td>

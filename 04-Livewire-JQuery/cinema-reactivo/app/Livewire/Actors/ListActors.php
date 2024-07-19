@@ -29,7 +29,7 @@ class ListActors extends Component
     public function render()
     {
         return view('livewire.actors.list-actors', [
-            'actores' => Actor::orderBy('actor_id', 'asc')->paginate(5),
+            'actores' => Actor::orderBy('ActorID', 'asc')->paginate(5),
         ])->layout('layouts.app');
     }
 }
