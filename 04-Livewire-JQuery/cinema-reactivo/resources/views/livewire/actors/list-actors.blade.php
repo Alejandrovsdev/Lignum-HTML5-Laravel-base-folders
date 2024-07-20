@@ -1,15 +1,23 @@
 <div class="py-12">
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-center leading-tight">
             {{ __('Actors CRUD') }}
         </h2>
     </x-slot>
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <x-primary-button class="bg-green-600 mb-3" data-bs-toggle="modal" data-bs-target="#createActorModal">Create Actor</x-primary-button>
+        <x-primary-button class="mb-3" data-bs-toggle="modal" data-bs-target="#createActorModal">Create
+            Actor</x-primary-button>
 
-        <div class="dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg text-white">
-            <table class="table text-white">
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show autohide" role="alert">
+                <strong>{{ session('success') }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        <div class="overflow-hidden shadow-sm sm:rounded-lg text-gray-800">
+            <table class="table border-gray-800 text-gray-800">
                 <thead>
                     <tr>
                         <th scope="col">#id</th>
@@ -26,8 +34,11 @@
                             <td>{{ $actor->Birthdate }}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                    <x-alert-button class="me-3" data-bs-toggle="modal" data-bs-target="#updateActorModal" wire:click="$dispatch('openUpdateActorModal', { actorId: {{ $actor->ActorID }} })">edit</x-alert-button>
-                                    <x-danger-button data-bs-toggle="modal" data-bs-target="#deleteActorModal" wire:click="$dispatch('openDeleteActorModal', { actorId: {{ $actor->ActorID }} })">X</x-danger-button>
+                                    <x-secondary-button class="me-3" data-bs-toggle="modal"
+                                        data-bs-target="#updateActorModal"
+                                        wire:click="$dispatch('openUpdateActorModal', { actorId: {{ $actor->ActorID }} })">edit</x-secondary-button>
+                                    <x-danger-button data-bs-toggle="modal" data-bs-target="#deleteActorModal"
+                                        wire:click="$dispatch('openDeleteActorModal', { actorId: {{ $actor->ActorID }} })">X</x-danger-button>
                                 </div>
                             </td>
                         </tr>
@@ -44,4 +55,3 @@
     @livewire('actors.update-actors')
     @livewire('actors.delete-actors')
 </div>
-

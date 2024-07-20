@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form wire:submit.prevent="updateActor">
+                <form wire:submit="updateActor">
                     <div>
                         <x-input-label for="name" :value="__('Actor Name')" />
                         <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" wire:model="name" required autofocus autocomplete="name" />

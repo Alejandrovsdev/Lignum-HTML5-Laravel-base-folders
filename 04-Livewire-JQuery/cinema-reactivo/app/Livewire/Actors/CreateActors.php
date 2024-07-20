@@ -4,14 +4,16 @@ namespace App\Livewire\Actors;
 
 use App\Models\Actor;
 use Exception;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class CreateActors extends Component
 {
-
+    #[Validate]
     public $name;
+    #[Validate]
     public $birthdate;
 
     public function createActor () {
@@ -33,8 +35,8 @@ class CreateActors extends Component
             $actor->Birthdate = $validateData['birthdate'];
             $actor->save();
             $this->dispatch('actorCreated');
-
             DB::commit();
+
         } catch (QueryException $e) {
             DB::rollback();
             abort(500, 'Error en la base de datos: ' . $e->getMessage());

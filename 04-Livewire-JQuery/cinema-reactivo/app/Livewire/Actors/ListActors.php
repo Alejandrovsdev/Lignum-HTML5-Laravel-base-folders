@@ -20,6 +20,7 @@ class ListActors extends Component
 
     public function refreshActors() {
         $this->actors = Actor::orderBy('ActorID', 'asc')->get();
+        session()->flash('success', 'Operation Sucecessfully Completed');
     }
 
     public function render()
