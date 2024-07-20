@@ -1,8 +1,8 @@
 <div class="modal fade" id="updateActorModal" tabindex="-1" aria-labelledby="updateActorModalLabel" aria-hidden="true" wire:ignore>
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="updateActorModalLabel">Update Actor</h5>
+            <div class="modal-header bg-gray-500">
+                <h5 class="modal-title text-white" id="updateActorModalLabel">Update Actor</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
