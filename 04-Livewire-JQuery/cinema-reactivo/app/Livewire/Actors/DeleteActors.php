@@ -4,6 +4,7 @@ namespace App\Livewire\Actors;
 
 use App\Models\Actor;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class DeleteActors extends Component
@@ -27,15 +28,21 @@ class DeleteActors extends Component
 
             $actor = Actor::findOrFail($this->actorId);
             $actor->delete();
-            $this->dispatch('actorDeleted');
 
             DB::commit();
+            $this->dispatch('actorDeleted');
+
+            Log::info('Actor deleted successfully', ['actor' => $actor]);
+
+
         } catch (QueryException $e) {
             DB::rollback();
-            abort(500, 'Error en la base de datos: ' . $e->getMessage());
+            Log::error('Database error', ['message' => $e->getMessage(), 'exception' => $e]);
+            $this->dispatch('errorDeleted', ['message' => 'Database error: ' . $e->getMessage()]);
         } catch (Exception $e) {
             DB::rollback();
-            abort(500, 'Error al guardar datos: ' . $e->getMessage());
+            Log::error('General error', ['message' => $e->getMessage(), 'exception' => $e]);
+            $this->dispatch('errorDeleted', ['message' => 'Error saving data: ' . $e->getMessage()]);
         }
     }
 

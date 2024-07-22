@@ -6,6 +6,7 @@ use App\Models\Actor;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class UpdateActors extends Component
@@ -13,6 +14,23 @@ class UpdateActors extends Component
     public $actorId;
     public $name;
     public $birthdate;
+
+    protected $rules = [
+        'name' => 'required|string|max:50|min:3',
+        'birthdate' => 'required|date',
+    ];
+
+    protected $messages = [
+        'name.required' => 'The name of the actor is required',
+        'name.min' => 'The actor name must be at least 3 characters',
+        'name.max' => 'The actor name must be at most 50 characters',
+        'birthdate.required' => 'The actor birthdate is required',
+    ];
+
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
 
     protected $listeners = ['openUpdateActorModal' => 'loadActor'];
 
@@ -25,16 +43,11 @@ class UpdateActors extends Component
     }
 
     public function updateActor() {
+
+        Log::info('Updating current actor');
+
         try {
-            $validateData = $this->validate([
-                'name' => 'required|string|max:50|min:3',
-                'birthdate' => 'required|date'
-            ],[
-                'name.required' => 'the name of the actor is required',
-                'name.min' => 'the actor name most be at least 3 characters',
-                'name.max' => 'the actor name most be at most 50 characters',
-                'birthdate.required' => 'the actor birthdate is required',
-            ]);
+            $validateData = $this->validate();
 
             DB::beginTransaction();
 
@@ -43,14 +56,19 @@ class UpdateActors extends Component
             $actor->Birthdate = $validateData['birthdate'];
 
             $actor->save();
-            $this->dispatch('actorUpdated');
             DB::commit();
+
+            Log::info('Actor updated successfully', ['actor' => $actor]);
+
+            $this->dispatch('actorUpdated');
         } catch (QueryException $e) {
             DB::rollback();
-            abort(500, 'Error en la base de datos: ' . $e->getMessage());
+            Log::error('Database error', ['message' => $e->getMessage(), 'exception' => $e]);
+            $this->dispatch('errorUpdated', ['message' => 'Database error: ' . $e->getMessage()]);
         } catch (Exception $e) {
             DB::rollback();
-            abort(500, 'Error al guardar datos: ' . $e->getMessage());
+            Log::error('General error', ['message' => $e->getMessage(), 'exception' => $e]);
+            $this->dispatch('errorUpdated', ['message' => 'Error saving data: ' . $e->getMessage()]);
         }
     }
 

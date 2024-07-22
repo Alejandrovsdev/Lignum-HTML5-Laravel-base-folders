@@ -16,11 +16,18 @@ class ListActors extends Component
         'actorCreated' => 'refreshActors',
         'actorUpdated' => 'refreshActors',
         'actorDeleted' => 'refreshActors',
+        'errorCreated' => 'errorAlert',
+        'errorUpdated' => 'errorAlert',
+        'errorDeleted' => 'errorAlert',
     ];
 
     public function refreshActors() {
         $this->actors = Actor::orderBy('ActorID', 'asc')->get();
         session()->flash('success', 'Operation Sucecessfully Completed');
+    }
+
+    public function errorAlert($data) {
+        session()->flash('error', $data['message']);
     }
 
     public function render()

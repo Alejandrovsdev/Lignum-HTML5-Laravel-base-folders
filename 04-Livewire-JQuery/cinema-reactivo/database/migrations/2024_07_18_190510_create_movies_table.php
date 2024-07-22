@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('PrincipalActorID')->nullable();
             $table->softDeletes();
 
-            $table->foreign('PrincipalActorID')->references('ActorID')->on('actors')->onDelete('cascade');
+            $table->foreign('PrincipalActorID')->references('ActorID')->on('actors');
         });
     }
 
