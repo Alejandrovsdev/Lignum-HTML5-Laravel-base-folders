@@ -47,6 +47,7 @@ class CreateMovies extends Component
 
             if ($this->image) {
                 $imageName = $this->image->getClientOriginalName();
+                $imageName = uniqid() . '_' . time() . $imageName;
                 $imageName = str_replace(' ', '_', $imageName);
                 $imageName = str_replace('#', '', $imageName);
                 $path = $this->image->storeAs('public/images', $imageName);
