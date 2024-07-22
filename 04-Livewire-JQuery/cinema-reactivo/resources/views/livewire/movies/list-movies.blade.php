@@ -29,9 +29,10 @@
                     <tr>
                         <th scope="col">#id</th>
                         <th scope="col">Title</th>
-                        <th scope="col">Duration</th>
+                        <th scope="col">Duration (min)</th>
                         <th scope="col">Main Actor</th>
                         <th scope="col">Image</th>
+                        <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,8 +41,8 @@
                             <th scope="row">{{ $movie->MovieID }}</th>
                             <td>{{ $movie->Title }}</td>
                             <td>{{ $movie->Duration }}</td>
-                            <td>{{ $movie->mainActor->Name }}</td>
-                            <td><img src="{{ asset($movie->image) }}" alt="movie image" width="100" height="150"></td>
+                            <td>{{ $movie->mainActor->Name ?? $movie->mainActor()->withTrashed()->first()->Name }}</td>
+                            <td><img src="{{ asset($movie->Image) }}" alt="movie image" width="100" height="150"></td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                     <x-secondary-button class="me-3" data-bs-toggle="modal"
@@ -53,7 +54,7 @@
                             </td>
                         </tr>
                     @empty
-                        <td colspan="5" class="text-center">There's not movies register</td>
+                        <td colspan="6" class="text-center">There's not movies register</td>
                     @endforelse
                 </tbody>
             </table>
@@ -62,6 +63,5 @@
         </div>
     </div>
     @livewire('movies.create-movies')
-    @livewire('movies.update-movies')
     @livewire('movies.delete-movies')
 </div>

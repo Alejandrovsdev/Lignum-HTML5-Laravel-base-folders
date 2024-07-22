@@ -9,12 +9,12 @@
                 <form wire:submit="createActor">
                     <div>
                         <x-input-label for="name" :value="__('Actor Name')" />
-                        <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" wire:model.blur="name" autofocus autocomplete="name" />
+                        <x-text-input wire:model.blur="name" id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" autofocus autocomplete="name" />
                         @error('name') <span class="text-sm text-red-600">{{ $message }}</span> @enderror
                     </div>
                     <div class="mt-4">
                         <x-input-label for="birthdate" :value="__('Actor Birthdate')" />
-                        <x-text-input id="birthdate" class="block mt-1 w-full" type="date" name="birthdate" wire:model.blur="birthdate" />
+                        <x-text-input wire:model.blur="birthdate" id="birthdate" class="block mt-1 w-full" type="date" name="birthdate" />
                         @error('birthdate') <span class="text-sm text-red-600">{{ $message }}</span> @enderror
                     </div>
                     <div class="modal-footer">

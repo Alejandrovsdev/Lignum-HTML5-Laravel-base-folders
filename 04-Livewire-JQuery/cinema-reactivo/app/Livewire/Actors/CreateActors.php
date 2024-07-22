@@ -32,7 +32,7 @@ class CreateActors extends Component
         $this->validateOnly($propertyName);
     }
 
-    public function createActor () {
+    public function createActor() {
 
         Log::info('Creating a new actor');
 

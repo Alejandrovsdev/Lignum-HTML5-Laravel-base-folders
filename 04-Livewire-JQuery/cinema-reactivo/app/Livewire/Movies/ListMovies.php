@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Movies;
 
+use App\Models\Actor;
 use App\Models\Movie;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -13,9 +14,9 @@ class ListMovies extends Component
     public $moviess;
 
     protected $listeners = [
-        'MovieCreated' => 'refreshMovies',
-        'MovieUpdated' => 'refreshMovies',
-        'MovieDeleted' => 'refreshMovies',
+        'movieCreated' => 'refreshMovies',
+        'movieUpdated' => 'refreshMovies',
+        'movieDeleted' => 'refreshMovies',
         'errorCreated' => 'errorAlert',
         'errorUpdated' => 'errorAlert',
         'errorDeleted' => 'errorAlert',
@@ -34,6 +35,7 @@ class ListMovies extends Component
     {
         return view('livewire.movies.list-movies', [
             'movies' => Movie::orderBy('MovieID', 'asc')->paginate(5),
+            'actors' => Actor::all(),
         ])->layout('layouts.app');
     }
 }
