@@ -11,7 +11,9 @@ class Movie extends Model
     use HasFactory;
     use SoftDeletes;
 
-    public function principalActor()
+    protected $primaryKey = 'MovieID';
+
+    public function mainActor()
     {
         return $this->belongsTo(Actor::class, 'PrincipalActorID', 'ActorID', 'MovieID');
     }

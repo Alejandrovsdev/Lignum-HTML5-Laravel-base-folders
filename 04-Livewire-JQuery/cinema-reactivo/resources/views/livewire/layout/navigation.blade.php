@@ -18,7 +18,7 @@
                         {{ __('Actors') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('admin-dashboard')" :active="request()->routeIs('admin-dashboard')" wire:navigate>
+                    <x-nav-link :href="route('admin-list-movies')" :active="request()->routeIs('admin-list-movies')" wire:navigate>
                         {{ __('Movies') }}
                     </x-nav-link>
                 </div>

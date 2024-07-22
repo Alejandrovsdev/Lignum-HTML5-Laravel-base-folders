@@ -1,7 +1,7 @@
 <?php
 
-use App\Livewire\Actors\CreateActors;
 use App\Livewire\Actors\ListActors;
+use App\Livewire\Movies\ListMovies;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +25,7 @@ Route::prefix('admin')->group(function () {
     });
 
     Route::prefix('movies')->group(function () {
+        Route::get('/', ListMovies::class)->name('admin-list-movies');
     });
 
 });
