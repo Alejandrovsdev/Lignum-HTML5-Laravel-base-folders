@@ -23,7 +23,6 @@ class ActorController extends Controller
     public function createActor(Request $req)
     {
         try {
-            DB::beginTransaction();
             $validateForm = $req->validate([
                 'actor_name' => 'required|min:3|max:50|string',
                 'actor_birthdate' => 'required|date',
@@ -33,6 +32,8 @@ class ActorController extends Controller
                 'actor_name.max' => 'the actor name most be at most 50 characters',
                 'actor_birthdate.required' => 'the actor birth date is required',
             ]);
+
+            DB::beginTransaction();
 
             Actor::create([
                 'name' => $validateForm['actor_name'],
@@ -58,7 +59,6 @@ class ActorController extends Controller
     public function updateActor(Request $req, Actor $actor)
     {
         try {
-            DB::beginTransaction();
             $validateForm = $req->validate([
                 'actor_name' => 'required|min:3|max:50|string',
                 'actor_birthdate' => 'required|date',
@@ -68,6 +68,8 @@ class ActorController extends Controller
                 'actor_name.max' => 'the actor name most be at most 50 characters',
                 'actor_birthdate.required' => 'the actor birth date is required',
             ]);
+
+            DB::beginTransaction();
 
             $actor->update([
                 'name' => $validateForm['actor_name'],
