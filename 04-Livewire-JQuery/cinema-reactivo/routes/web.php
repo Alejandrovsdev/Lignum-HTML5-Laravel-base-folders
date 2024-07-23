@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MovieController;
 use App\Livewire\Actors\ListActors;
 use App\Livewire\Movies\ListMovies;
 use Illuminate\Support\Facades\Route;
@@ -17,15 +18,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
 
-Route::prefix('admin')->group(function () {
+Route::prefix('/admin')->group(function () {
     Route::view('/', 'dashboard')->name('admin-dashboard');
 
-    Route::prefix('actors')->group(function () {
+    Route::prefix('/actors')->group(function () {
         Route::get('/', ListActors::class)->name('admin-list-actors');
     });
 
-    Route::prefix('movies')->group(function () {
+    Route::prefix('/movies')->group(function () {
         Route::get('/', ListMovies::class)->name('admin-list-movies');
+        Route::get('/edit/{movieId}', [MovieController::class, 'getMovie']);
+        Route::put('/{movieId}', [MovieController::class, 'updateMovie']);
     });
-
 });

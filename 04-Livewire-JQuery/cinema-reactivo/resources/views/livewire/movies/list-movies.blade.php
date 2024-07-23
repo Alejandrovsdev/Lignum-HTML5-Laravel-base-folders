@@ -42,12 +42,12 @@
                             <td>{{ $movie->Title }}</td>
                             <td>{{ $movie->Duration }}</td>
                             <td>{{ $movie->mainActor->Name ?? $movie->mainActor()->withTrashed()->first()->Name }}</td>
-                            <td><img src="{{ asset($movie->Image) }}" alt="movie image" width="100" height="150"></td>
+                            <td><img src="{{ asset($movie->Image) }}" alt="movie image" width="100" height="150">
+                            </td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                    <x-secondary-button class="me-3" data-bs-toggle="modal"
-                                        data-bs-target="#updateMovieModal"
-                                        wire:click="$dispatch('openUpdateMovieModal', { movieId: {{ $movie->MovieID }} })">edit</x-secondary-button>
+                                    <x-secondary-button class="me-3 edit-movie-button"
+                                        data-id="{{ $movie->MovieID }}">edit</x-secondary-button>
                                     <x-danger-button data-bs-toggle="modal" data-bs-target="#deleteMovieModal"
                                         wire:click="$dispatch('openDeleteMovieModal', { movieId: {{ $movie->MovieID }} })">X</x-danger-button>
                                 </div>
@@ -63,5 +63,55 @@
         </div>
     </div>
     @livewire('movies.create-movies')
+    @include('components.edit-movie-modal')
     @livewire('movies.delete-movies')
+
+    <script>
+        $(document).ready(function() {
+            $('.edit-movie-button').on('click', function() {
+                var movieId = $(this).data('id');
+                var modal = $('#editMovieModal');
+
+                $.ajax({
+                    url: '/admin/movies/edit/' + movieId,
+                    method: 'GET',
+                    success: function(data) {
+                        modal.modal('show');
+                        $('#edit-movie-id').val(data.movie.MovieID);
+                        $('#edit-title').val(data.movie.Title);
+                        $('#edit-duration').val(data.movie.Duration);
+                        $('#edit-synopsis').val(data.movie.Synopsis);
+                        $('#edit-mainActor').val(data.movie.PrincipalActorID);
+
+                        $('#current-image').attr('src', data.movie.Image);
+                    }
+                });
+            });
+
+            $('#edit-movie-form').on('submit', function(e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                var movieId = $('#edit-movie-id').val();
+
+                $.ajax({
+                    url: '/admin/movies/' + movieId,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'X-HTTP-Method-Override': 'PUT'
+                    },
+                    success: function(response) {
+                        $('#editMovieModal').modal('hide');
+                        location.reload();
+                    },
+                    error: function(response) {
+                        alert('An error occurred while updating the movie.');
+                    }
+                });
+            });
+        });
+    </script>
 </div>
