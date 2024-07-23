@@ -37,12 +37,14 @@
                 </thead>
                 <tbody>
                     @forelse ($movies as $movie)
-                        <tr>
+                        <tr id="movie-{{ $movie->MovieID }}">
                             <th scope="row">{{ $movie->MovieID }}</th>
-                            <td>{{ $movie->Title }}</td>
-                            <td>{{ $movie->Duration }}</td>
-                            <td>{{ $movie->mainActor->Name ?? $movie->mainActor()->withTrashed()->first()->Name }}</td>
-                            <td><img src="{{ asset($movie->Image) }}" alt="movie image" width="100" height="150">
+                            <td class="title">{{ $movie->Title }}</td>
+                            <td class="duration">{{ $movie->Duration }}</td>
+                            <td class="main-actor">
+                                {{ $movie->mainActor->Name ?? $movie->mainActor()->withTrashed()->first()->Name }}</td>
+                            <td><img src="{{ asset($movie->Image) }}" class="movie-image" alt="movie image"
+                                    width="100" height="150">
                             </td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
@@ -105,13 +107,26 @@
                     },
                     success: function(response) {
                         $('#editMovieModal').modal('hide');
-                        location.reload();
+
+                        updateTable(response.movie);
                     },
                     error: function(response) {
                         alert('An error occurred while updating the movie.');
                     }
                 });
             });
+
+            function updateTable(movie) {
+                var row = $('#movie-' + movie.MovieID);
+                row.find('.title').text(movie.Title);
+                row.find('.duration').text(movie.Duration);
+                row.find('.main-actor').text(movie.nameActor);
+
+                var image = row.find('.movie-image');
+                if (movie.Image) {
+                    image.attr('src', movie.Image);
+                }
+            }
         });
     </script>
 </div>

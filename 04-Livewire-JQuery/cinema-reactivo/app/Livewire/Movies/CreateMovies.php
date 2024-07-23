@@ -7,6 +7,7 @@ use App\Models\Movie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Exception;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -72,11 +73,11 @@ class CreateMovies extends Component
         } catch (QueryException $e) {
             DB::rollback();
             Log::error('Database error', ['message' => $e->getMessage(), 'exception' => $e]);
-            $this->dispatch('errorCreated', ['message' => 'Database error: ' . $e->getMessage()]);
+            $this->dispatch('errorMovieCreated', ['message' => 'Database error: ' . $e->getMessage()]);
         } catch (Exception $e) {
             DB::rollback();
             Log::error('General error', ['message' => $e->getMessage(), 'exception' => $e]);
-            $this->dispatch('errorCreated', ['message' => 'Error saving data: ' . $e->getMessage()]);
+            $this->dispatch('errorMovieCreated', ['message' => 'Error saving data: ' . $e->getMessage()]);
         }
     }
 

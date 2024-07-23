@@ -19,7 +19,7 @@ class MovieController extends Controller
     public function updateMovie(Request $req, $movieId)
     {
         try {
-            $movie = Movie::findOrFail($movieId);
+            $movie = Movie::findOrFail($movieId); //TODO: Usar find y un error controlado
 
             $validateData = $req->validate([
                 'title' => 'required|min:3|max:50|string',
@@ -54,8 +54,13 @@ class MovieController extends Controller
 
             $movie->save();
 
+            $movie->nameActor = $movie->mainActor->Name;
+
             DB::commit();
-            return response()->json(['message' => 'Movie updated successfully']);
+            return response()->json([
+            'message' => 'Movie updated successfully',
+            'movie' => $movie
+        ]);
         } catch (QueryException $e) {
             DB::rollback();
             Log::error('Database error', ['message' => $e->getMessage(), 'exception' => $e]);

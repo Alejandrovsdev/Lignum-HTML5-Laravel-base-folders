@@ -38,11 +38,11 @@ class DeleteMovies extends Component
         } catch (QueryException $e) {
             DB::rollback();
             Log::error('Database error', ['message' => $e->getMessage(), 'exception' => $e]);
-            $this->dispatch('errorDeleted', ['message' => 'Database error: ' . $e->getMessage()]);
+            $this->dispatch('errorMovieDeleted', ['message' => 'Database error: ' . $e->getMessage()]);
         } catch (Exception $e) {
             DB::rollback();
             Log::error('General error', ['message' => $e->getMessage(), 'exception' => $e]);
-            $this->dispatch('errorDeleted', ['message' => 'Error saving data: ' . $e->getMessage()]);
+            $this->dispatch('errorMovieDeleted', ['message' => 'Error saving data: ' . $e->getMessage()]);
         }
     }
 

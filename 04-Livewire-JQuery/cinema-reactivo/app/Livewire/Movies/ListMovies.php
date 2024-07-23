@@ -17,13 +17,12 @@ class ListMovies extends Component
         'movieCreated' => 'refreshMovies',
         'movieUpdated' => 'refreshMovies',
         'movieDeleted' => 'refreshMovies',
-        'errorCreated' => 'errorAlert',
-        'errorUpdated' => 'errorAlert',
-        'errorDeleted' => 'errorAlert',
+        'errorMovieCreated' => 'errorAlert',
+        'errorMovieUpdated' => 'errorAlert',
+        'errorMovieDeleted' => 'errorAlert',
     ];
 
     public function refreshMovies() {
-        $this->moviess = Movie::orderBy('MovieID', 'asc')->get();
         session()->flash('success', 'Operation Sucecessfully Completed');
     }
 
