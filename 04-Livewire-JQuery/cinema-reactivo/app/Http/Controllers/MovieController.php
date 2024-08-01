@@ -12,14 +12,21 @@ class MovieController extends Controller
 {
     public function getMovie($movieId)
     {
-        $movie = Movie::findOrFail($movieId);
+        $movie = Movie::find($movieId)->only([
+            'MovieID',
+            'Title',
+            'Duration',
+            'Synopsis',
+            'PrincipalActorID',
+            'Image'
+        ]);
         return response()->json(['movie' => $movie]);
     }
 
     public function updateMovie(Request $req, $movieId)
     {
         try {
-            $movie = Movie::findOrFail($movieId); //TODO: Usar find y un error controlado
+            $movie = Movie::find($movieId); //TODO: Usar find y un error controlado
 
             $validateData = $req->validate([
                 'title' => 'required|min:3|max:50|string',
@@ -59,7 +66,14 @@ class MovieController extends Controller
             DB::commit();
             return response()->json([
             'message' => 'Movie updated successfully',
-            'movie' => $movie
+            'movie' => $movie->only([
+                'MovieID',
+                'Title',
+                'Duration',
+                'Synopsis',
+                'PrincipalActorID',
+                'Image'
+            ])
         ]);
         } catch (QueryException $e) {
             DB::rollback();
