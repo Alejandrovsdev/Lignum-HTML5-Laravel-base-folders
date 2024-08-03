@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Movie;
+use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -63,17 +65,20 @@ class MovieController extends Controller
 
             $movie->nameActor = $movie->mainActor->Name;
 
-            DB::commit();
-            return response()->json([
-            'message' => 'Movie updated successfully',
-            'movie' => $movie->only([
+            $movie = $movie->only([
                 'MovieID',
                 'Title',
                 'Duration',
                 'Synopsis',
                 'PrincipalActorID',
-                'Image'
-            ])
+                'Image',
+                'nameActor'
+            ]);
+
+            DB::commit();
+            return response()->json([
+            'message' => 'Movie updated successfully',
+            'movie' => $movie
         ]);
         } catch (QueryException $e) {
             DB::rollback();

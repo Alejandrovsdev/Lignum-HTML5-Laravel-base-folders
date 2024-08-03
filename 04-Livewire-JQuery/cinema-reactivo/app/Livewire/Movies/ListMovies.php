@@ -11,8 +11,6 @@ class ListMovies extends Component
 {
     use WithPagination;
 
-    public $moviess;
-
     protected $listeners = [
         'movieCreated' => 'refreshMovies',
         'movieUpdated' => 'refreshMovies',
@@ -35,6 +33,6 @@ class ListMovies extends Component
         return view('livewire.movies.list-movies', [
             'movies' => Movie::orderBy('MovieID', 'asc')->paginate(5),
             'actors' => Actor::all(),
-        ])->layout('layouts.app');
+        ]);
     }
 }

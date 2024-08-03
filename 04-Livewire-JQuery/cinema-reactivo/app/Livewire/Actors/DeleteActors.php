@@ -3,6 +3,8 @@
 namespace App\Livewire\Actors;
 
 use App\Models\Actor;
+use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
