@@ -34,7 +34,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($actores as $actor)
+                    @if ($actores->count() == 0)
+                    <td colspan="5" class="text-center">There's not actors register</td>
+                    @endif
+                    @foreach ($actores as $actor)
                         <tr>
                             <th scope="row">{{ $actor->ActorID }}</th>
                             <td>{{ $actor->Name }}</td>
@@ -49,9 +52,7 @@
                                 </div>
                             </td>
                         </tr>
-                    @empty
-                        <td colspan="5" class="text-center">There's not actors register</td>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
             {{ $actores->links() }}

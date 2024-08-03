@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Movie;
+use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -12,14 +14,21 @@ class MovieController extends Controller
 {
     public function getMovie($movieId)
     {
-        $movie = Movie::findOrFail($movieId);
+        $movie = Movie::find($movieId)->only([
+            'MovieID',
+            'Title',
+            'Duration',
+            'Synopsis',
+            'PrincipalActorID',
+            'Image'
+        ]);
         return response()->json(['movie' => $movie]);
     }
 
     public function updateMovie(Request $req, $movieId)
     {
         try {
-            $movie = Movie::findOrFail($movieId); //TODO: Usar find y un error controlado
+            $movie = Movie::find($movieId); //TODO: Usar find y un error controlado
 
             $validateData = $req->validate([
                 'title' => 'required|min:3|max:50|string',
@@ -55,6 +64,16 @@ class MovieController extends Controller
             $movie->save();
 
             $movie->nameActor = $movie->mainActor->Name;
+
+            $movie = $movie->only([
+                'MovieID',
+                'Title',
+                'Duration',
+                'Synopsis',
+                'PrincipalActorID',
+                'Image',
+                'nameActor'
+            ]);
 
             DB::commit();
             return response()->json([

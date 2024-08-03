@@ -3,10 +3,12 @@
 namespace App\Livewire\Actors;
 
 use App\Models\Actor;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Request;
 use Livewire\Component;
 
 class CreateActors extends Component
@@ -43,7 +45,7 @@ class CreateActors extends Component
 
             $actor = new Actor();
             $actor->Name = $validateData['name'];
-            $actor->Birthdate = $validateData['birthdate'];
+            $actor->Birthdate =  Carbon::createFromFormat('Y-m-d', $validateData['birthdate'])->format('d-m-Y');
             $actor->save();
 
             DB::commit();

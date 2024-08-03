@@ -33,6 +33,6 @@ class ListActors extends Component
     {
         return view('livewire.actors.list-actors', [
             'actores' => Actor::orderBy('ActorID', 'asc')->paginate(5),
-        ])->layout('layouts.app');
+        ]);
     }
 }

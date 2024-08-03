@@ -3,6 +3,7 @@
 namespace App\Livewire\Actors;
 
 use App\Models\Actor;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
@@ -39,7 +40,7 @@ class UpdateActors extends Component
         $actor = Actor::findOrFail($actorId);
         $this->actorId = $actor->ActorID;
         $this->name = $actor->Name;
-        $this->birthdate = $actor->Birthdate;
+        $this->birthdate = Carbon::parse($actor->Birthdate)->format('Y-m-d');
     }
 
     public function updateActor() {
@@ -51,9 +52,9 @@ class UpdateActors extends Component
 
             DB::beginTransaction();
 
-            $actor = Actor::findOrFail($this->actorId);
+            $actor = Actor::find($this->actorId);
             $actor->Name = $validateData['name'];
-            $actor->Birthdate = $validateData['birthdate'];
+            $actor->Birthdate = Carbon::createFromFormat('Y-m-d', $validateData['birthdate'])->format('d-m-Y');
 
             $actor->save();
             DB::commit();

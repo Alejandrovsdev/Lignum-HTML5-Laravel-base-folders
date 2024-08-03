@@ -36,7 +36,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($movies as $movie)
+                    @if ($movies->count() == 0)
+                    <td colspan="6" class="text-center">There's not movies register</td>
+                    @endif
+                    @foreach ($movies as $movie)
                         <tr id="movie-{{ $movie->MovieID }}">
                             <th scope="row">{{ $movie->MovieID }}</th>
                             <td class="title">{{ $movie->Title }}</td>
@@ -55,9 +58,7 @@
                                 </div>
                             </td>
                         </tr>
-                    @empty
-                        <td colspan="6" class="text-center">There's not movies register</td>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
             {{ $movies->links() }}
@@ -69,28 +70,29 @@
     @livewire('movies.delete-movies')
 
     <script>
-        $(document).ready(function() {
-            $('.edit-movie-button').on('click', function() {
+        document.addEventListener('livewire:init', function() {
+            $(document).off('click', '.edit-movie-button');
+
+            $(document).on('click', '.edit-movie-button', function() {
                 var movieId = $(this).data('id');
                 var modal = $('#editMovieModal');
+                modal.modal('show');
 
                 $.ajax({
                     url: '/admin/movies/edit/' + movieId,
                     method: 'GET',
                     success: function(data) {
-                        modal.modal('show');
                         $('#edit-movie-id').val(data.movie.MovieID);
                         $('#edit-title').val(data.movie.Title);
                         $('#edit-duration').val(data.movie.Duration);
                         $('#edit-synopsis').val(data.movie.Synopsis);
                         $('#edit-mainActor').val(data.movie.PrincipalActorID);
-
                         $('#current-image').attr('src', data.movie.Image);
                     }
                 });
             });
 
-            $('#edit-movie-form').on('submit', function(e) {
+            $(document).on('submit', '#edit-movie-form', function(e) {
                 e.preventDefault();
                 var formData = new FormData(this);
                 var movieId = $('#edit-movie-id').val();
@@ -107,7 +109,6 @@
                     },
                     success: function(response) {
                         $('#editMovieModal').modal('hide');
-
                         updateTable(response.movie);
                     },
                     error: function(response) {
@@ -121,7 +122,6 @@
                 row.find('.title').text(movie.Title);
                 row.find('.duration').text(movie.Duration);
                 row.find('.main-actor').text(movie.nameActor);
-
                 var image = row.find('.movie-image');
                 if (movie.Image) {
                     image.attr('src', movie.Image);
