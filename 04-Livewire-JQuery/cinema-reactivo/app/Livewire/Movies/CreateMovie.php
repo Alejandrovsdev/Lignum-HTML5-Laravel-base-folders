@@ -8,10 +8,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Exception;
+use Illuminate\Database\QueryException;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class CreateMovies extends Component
+class CreateMovie extends Component
 {
     use WithFileUploads;
 
@@ -67,23 +68,24 @@ class CreateMovies extends Component
 
             Log::info('Movie created successfully', ['movie' => $movie]);
 
+            $this->dispatch('swalConfirmMsg');
             $this->dispatch('movieCreated');
             $this->reset();
 
         } catch (QueryException $e) {
             DB::rollback();
             Log::error('Database error', ['message' => $e->getMessage(), 'exception' => $e]);
-            $this->dispatch('errorMovieCreated', ['message' => 'Database error: ' . $e->getMessage()]);
+            $this->dispatch('swalErrorMsg', ['message' => 'Database error: ' . $e->getMessage()]);
         } catch (Exception $e) {
             DB::rollback();
             Log::error('General error', ['message' => $e->getMessage(), 'exception' => $e]);
-            $this->dispatch('errorMovieCreated', ['message' => 'Error saving data: ' . $e->getMessage()]);
+            $this->dispatch('swalErrorMsg', ['message' => 'Database error: ' . $e->getMessage()]);
         }
     }
 
     public function render()
     {
-        return view('livewire.movies.create-movies', [
+        return view('livewire.movies.create-movie', [
             'actors' => Actor::all(),
         ]);
     }

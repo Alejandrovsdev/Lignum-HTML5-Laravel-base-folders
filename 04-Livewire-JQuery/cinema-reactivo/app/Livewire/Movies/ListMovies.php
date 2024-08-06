@@ -12,21 +12,10 @@ class ListMovies extends Component
     use WithPagination;
 
     protected $listeners = [
-        'movieCreated' => 'refreshMovies',
-        'movieUpdated' => 'refreshMovies',
-        'movieDeleted' => 'refreshMovies',
-        'errorMovieCreated' => 'errorAlert',
-        'errorMovieUpdated' => 'errorAlert',
-        'errorMovieDeleted' => 'errorAlert',
+        'movieCreated' => 'refresh',
+        'movieUpdated' => 'refresh',
+        'movieDeleted' => 'refresh',
     ];
-
-    public function refreshMovies() {
-        session()->flash('success', 'Operation Sucecessfully Completed');
-    }
-
-    public function errorAlert($data) {
-        session()->flash('error', $data['message']);
-    }
 
     public function render()
     {

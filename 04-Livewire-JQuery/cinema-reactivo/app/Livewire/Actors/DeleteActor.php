@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
-class DeleteActors extends Component
+class DeleteActor extends Component
 {
     public $actorId;
 
@@ -19,7 +19,7 @@ class DeleteActors extends Component
 
     public function loadActor($actorId)
     {
-        $actor = Actor::findOrFail($actorId);
+        $actor = Actor::find($actorId);
         $this->actorId = $actor->ActorID;
     }
 
@@ -28,10 +28,12 @@ class DeleteActors extends Component
         try {
             DB::beginTransaction();
 
-            $actor = Actor::findOrFail($this->actorId);
+            $actor = Actor::find($this->actorId);
             $actor->delete();
 
             DB::commit();
+
+            $this->dispatch('swalConfirmMsg');
             $this->dispatch('actorDeleted');
 
             Log::info('Actor deleted successfully', ['actor' => $actor]);
@@ -40,16 +42,16 @@ class DeleteActors extends Component
         } catch (QueryException $e) {
             DB::rollback();
             Log::error('Database error', ['message' => $e->getMessage(), 'exception' => $e]);
-            $this->dispatch('errorDeleted', ['message' => 'Database error: ' . $e->getMessage()]);
+            $this->dispatch('swalErrorMsg', ['message' => 'Database error: ' . $e->getMessage()]);
         } catch (Exception $e) {
             DB::rollback();
             Log::error('General error', ['message' => $e->getMessage(), 'exception' => $e]);
-            $this->dispatch('errorDeleted', ['message' => 'Error saving data: ' . $e->getMessage()]);
+            $this->dispatch('swalErrorMsg', ['message' => 'Database error: ' . $e->getMessage()]);
         }
     }
 
     public function render()
     {
-        return view('livewire.actors.delete-actors');
+        return view('livewire.actors.delete-actor');
     }
 }

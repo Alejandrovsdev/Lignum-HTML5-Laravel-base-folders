@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Movie;
 use Exception;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 
 class MovieController extends Controller
 {
-    public function getMovie($movieId)
+    public function getMovie($movieId): JsonResponse
     {
         $movie = Movie::find($movieId)->only([
             'MovieID',
@@ -25,7 +26,7 @@ class MovieController extends Controller
         return response()->json(['movie' => $movie]);
     }
 
-    public function updateMovie(Request $req, $movieId)
+    public function updateMovie(Request $req, $movieId): JsonResponse
     {
         try {
             $movie = Movie::find($movieId); //TODO: Usar find y un error controlado
@@ -77,17 +78,16 @@ class MovieController extends Controller
 
             DB::commit();
             return response()->json([
-            'message' => 'Movie updated successfully',
-            'movie' => $movie
-        ]);
+                'movie' => $movie
+            ]);
         } catch (QueryException $e) {
             DB::rollback();
             Log::error('Database error', ['message' => $e->getMessage(), 'exception' => $e]);
-            return response()->json(['message' => 'Database error: ' . $e->getMessage()]);
+            return response()->json(['errors' => ['database' => 'Database error: ' . $e->getMessage()]]);
         } catch (Exception $e) {
             DB::rollback();
             Log::error('General error', ['message' => $e->getMessage(), 'exception' => $e]);
-            return response()->json(['message' => 'Error saving data: ' . $e->getMessage()]);
+            return response()->json(['errors' => ['general' => 'Error saving data: ' . $e->getMessage()]]);
         }
     }
 }

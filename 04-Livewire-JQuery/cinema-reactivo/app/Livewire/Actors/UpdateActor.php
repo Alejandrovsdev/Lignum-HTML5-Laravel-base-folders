@@ -8,13 +8,12 @@ use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Request;
 use Livewire\Component;
 
-class CreateActors extends Component
+class UpdateActor extends Component
 {
+    public $actorId;
     public $name;
-
     public $birthdate;
 
     protected $rules = [
@@ -34,40 +33,49 @@ class CreateActors extends Component
         $this->validateOnly($propertyName);
     }
 
-    public function createActor() {
+    protected $listeners = ['openUpdateActorModal' => 'loadActor'];
 
-        Log::info('Creating a new actor');
+    public function loadActor($actorId)
+    {
+        $actor = Actor::find($actorId);
+        $this->actorId = $actor->ActorID;
+        $this->name = $actor->Name;
+        $this->birthdate = Carbon::parse($actor->Birthdate)->format('Y-m-d');
+    }
+
+    public function updateActor() {
+
+        Log::info('Updating current actor');
 
         try {
             $validateData = $this->validate();
 
             DB::beginTransaction();
 
-            $actor = new Actor();
+            $actor = Actor::find($this->actorId);
             $actor->Name = $validateData['name'];
-            $actor->Birthdate =  Carbon::createFromFormat('Y-m-d', $validateData['birthdate'])->format('d-m-Y');
-            $actor->save();
+            $actor->Birthdate = Carbon::createFromFormat('Y-m-d', $validateData['birthdate'])->format('d-m-Y');
 
+            $actor->save();
             DB::commit();
 
-            Log::info('Actor created successfully', ['actor' => $actor]);
+            Log::info('Actor updated successfully', ['actor' => $actor]);
 
-            $this->dispatch('actorCreated');
-            $this->reset();
-
+            $this->dispatch('swalConfirmMsg');
+            $this->dispatch('actorUpdated');
         } catch (QueryException $e) {
             DB::rollback();
             Log::error('Database error', ['message' => $e->getMessage(), 'exception' => $e]);
-            $this->dispatch('errorCreated', ['message' => 'Database error: ' . $e->getMessage()]);
+            $this->dispatch('swalErrorMsg', ['message' => 'Database error: ' . $e->getMessage()]);
         } catch (Exception $e) {
             DB::rollback();
             Log::error('General error', ['message' => $e->getMessage(), 'exception' => $e]);
-            $this->dispatch('errorCreated', ['message' => 'Error saving data: ' . $e->getMessage()]);
+            $this->dispatch('swalErrorMsg', ['message' => 'Database error: ' . $e->getMessage()]);
         }
     }
 
     public function render()
     {
-        return view('livewire.actors.create-actors');
+        return view('livewire.actors.update-actor');
     }
 }
