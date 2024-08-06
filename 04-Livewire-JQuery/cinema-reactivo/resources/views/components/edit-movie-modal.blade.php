@@ -10,20 +10,23 @@
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="movieId" id="edit-movie-id">
+
                     <div>
                         <x-input-label for="edit-title" :value="__('Movie Title')" />
-                        <x-text-input id="edit-title" class="block mt-1 w-full" type="text" name="title" autofocus
-                            autocomplete="title" />
+                        <x-text-input id="edit-title" class="block mt-1 w-full" type="text" name="title" autofocus autocomplete="title" />
+                        <div id="edit-title-error" class="invalid-feedback" style="display: none;"></div>
                     </div>
 
                     <div class="mt-4">
                         <x-input-label for="edit-duration" :value="__('Movie Duration (min)')" />
                         <x-text-input id="edit-duration" class="block mt-1 w-full" type="text" name="duration" />
+                        <div id="edit-duration-error" class="invalid-feedback" style="display: none;"></div>
                     </div>
 
                     <div class="mt-4">
                         <x-input-label for="edit-synopsis" :value="__('Movie Synopsis')" />
                         <textarea id="edit-synopsis" class="block mt-1 w-full" name="synopsis"></textarea>
+                        <div id="edit-synopsis-error" class="invalid-feedback" style="display: none;"></div>
                     </div>
 
                     <div class="mt-4">
@@ -34,11 +37,13 @@
                                 <option value="{{ $actor->ActorID }}">{{ $actor->Name }}</option>
                             @endforeach
                         </select>
+                        <div id="edit-mainActor-error" class="invalid-feedback" style="display: none;"></div>
                     </div>
 
                     <div class="mb-4">
                         <x-input-label for="edit-image" :value="__('Movie Image')" class="mt-4" />
                         <x-text-input id="edit-image" class="block mt-1 w-full" type="file" name="image" />
+                        <div id="edit-image-error" class="invalid-feedback" style="display: none;"></div>
                     </div>
 
                     <div class="mb-4">
@@ -56,3 +61,4 @@
         </div>
     </div>
 </div>
+

@@ -9,20 +9,6 @@
         <x-primary-button class="mb-3" data-bs-toggle="modal" data-bs-target="#createMovieModal">Create
             Movie</x-primary-button>
 
-        @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>{{ session('success') }}</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-
-        @if (session('error'))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>{{ session('error') }}</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-
         <div class="overflow-hidden shadow-sm sm:rounded-lg text-gray-800">
             <table class="table border-gray-800 text-gray-800">
                 <thead>
@@ -32,12 +18,12 @@
                         <th scope="col">Duration (min)</th>
                         <th scope="col">Main Actor</th>
                         <th scope="col">Image</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col" class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if ($movies->count() == 0)
-                    <td colspan="6" class="text-center">There's not movies register</td>
+                        <td colspan="6" class="text-center">There's not movies register</td>
                     @endif
                     @foreach ($movies as $movie)
                         <tr id="movie-{{ $movie->MovieID }}">
@@ -49,12 +35,14 @@
                             <td><img src="{{ asset($movie->Image) }}" class="movie-image" alt="movie image"
                                     width="100" height="150">
                             </td>
-                            <td>
+                            <td class="text-center">
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                    <x-secondary-button class="me-3 edit-movie-button"
-                                        data-id="{{ $movie->MovieID }}">edit</x-secondary-button>
-                                    <x-danger-button data-bs-toggle="modal" data-bs-target="#deleteMovieModal"
-                                        wire:click="$dispatch('openDeleteMovieModal', { movieId: {{ $movie->MovieID }} })">X</x-danger-button>
+                                    <button class="me-3 edit-movie-button text-2xl"
+                                        data-id="{{ $movie->MovieID }}"><i
+                                        class="fa-regular fa-pen-to-square text-blue-600"></i></button>
+                                <button class="text-2xl" data-bs-toggle="modal" data-bs-target="#deleteMovieModal"
+                                wire:click="$dispatch('openDeleteMovieModal', { movieId: {{ $movie->MovieID }} })"><i
+                                        class="fa-solid fa-trash text-red-600 text-md"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -62,15 +50,13 @@
                 </tbody>
             </table>
             {{ $movies->links() }}
-
         </div>
-    </div>
-    @livewire('movies.create-movies')
     @include('components.edit-movie-modal')
-    @livewire('movies.delete-movies')
+    </div>
 
     <script>
         document.addEventListener('livewire:init', function() {
+
             $(document).off('click', '.edit-movie-button');
 
             $(document).on('click', '.edit-movie-button', function() {
@@ -108,11 +94,18 @@
                         'X-HTTP-Method-Override': 'PUT'
                     },
                     success: function(response) {
-                        $('#editMovieModal').modal('hide');
-                        updateTable(response.movie);
+                        if (response.errors) {
+                            const responseMsg = response.errors;
+                            Livewire.dispatch('swalErrorMsg', { response: responseMsg });
+                        } else {
+                            $('#editMovieModal').modal('hide');
+                            Livewire.dispatch('swalConfirmMsg');
+                            updateTable(response.movie);
+                        }
                     },
                     error: function(response) {
-                        alert('An error occurred while updating the movie.');
+                        const responseMsg = response.errors;
+                        Livewire.dispatch('swalErrorMsg', { response: responseMsg });
                     }
                 });
             });
