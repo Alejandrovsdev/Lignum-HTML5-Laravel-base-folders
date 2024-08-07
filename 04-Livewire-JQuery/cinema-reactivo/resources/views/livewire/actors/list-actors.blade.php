@@ -3,10 +3,10 @@
         <x-primary-button class="mb-3" data-bs-toggle="modal" data-bs-target="#createActorModal">Create
             Actor</x-primary-button>
 
-        <div class="text-xl">
-            <button class="hover:text-green-800" onclick="toggleIcons()">
+        <div class="text-xl mb-3">
+            <button class="hover:text-green-800 mb-3" onclick="toggleIcons()">
                 <i class="fa-solid fa-filter"></i>
-                <soan>filters</soan>
+                <span>filters</span>
             </button>
             <div id="icons" class="hidden icons-container flex justify-between">
                 <div class="searchInputContainer">
@@ -14,7 +14,15 @@
                     <button class="hover:text-green-600 text-end">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
-                    <x-text-input id="search" type="text" />
+                    <x-text-input class="h-8" id="search" type="text" />
+                </div>
+
+                <div class="birthdateInputContainer flex">
+                    <x-input-label for="searchDateFrom" :value="__('From')" />
+                    <x-text-input class="h-8 me-4" id="searchDateFrom" type="date" />
+
+                    <x-input-label for="searchDateTo" :value="__('To')" />
+                    <x-text-input class="h-8" id="searchDateTo" type="date" />
                 </div>
 
                 <div class="orderIconsContainer">
