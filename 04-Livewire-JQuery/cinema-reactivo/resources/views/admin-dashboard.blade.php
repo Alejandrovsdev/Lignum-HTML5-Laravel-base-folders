@@ -47,5 +47,6 @@
     <script src=" {{ asset('sweetAlerts/swal.js') }} "></script>
     @livewireScripts
 </body>
+<footer class="text-gray-500 text-center">Dev by Alejandro with <span class="text-red-600">♥</span> from Argentina.</footer>
 
 </html>
