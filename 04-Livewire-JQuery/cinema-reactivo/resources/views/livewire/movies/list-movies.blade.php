@@ -6,8 +6,41 @@
     </x-slot>
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <x-primary-button class="mb-3" data-bs-toggle="modal" data-bs-target="#createMovieModal">Create
-            Movie</x-primary-button>
+        <x-primary-button class="mb-3" data-bs-toggle="modal" data-bs-target="#createMovieModal">Create Movie</x-primary-button>
+
+        <div class="text-xl">
+            <button class="hover:text-green-800" onclick="toggleIcons()">
+                <i class="fa-solid fa-filter"></i>
+                <soan>filters</soan>
+            </button>
+            <div id="icons" class="hidden icons-container flex justify-between">
+                <div class="searchInputContainer">
+                    <x-input-label for="search" />
+                    <button class="hover:text-green-600 text-end">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                    <x-text-input id="search" type="text" />
+                </div>
+
+                <div class="orderIconsContainer">
+                    <button class="hover:text-green-600 me-3">
+                        <i class="fa-solid fa-arrow-up-1-9"></i>
+                    </button>
+
+                    <button class="hover:text-green-600 me-3">
+                        <i class="fa-solid fa-arrow-down-9-1"></i>
+                    </button>
+
+                    <button class="hover:text-green-600 me-3">
+                        <i class="fa-solid fa-arrow-down-z-a"></i>
+                    </button>
+
+                    <button class="hover:text-green-600 me-3">
+                        <i class="fa-solid fa-arrow-up-a-z"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
 
         <div class="overflow-hidden shadow-sm sm:rounded-lg text-gray-800">
             <table class="table border-gray-800 text-gray-800">
@@ -53,73 +86,4 @@
         </div>
     @include('components.edit-movie-modal')
     </div>
-
-    <script>
-        document.addEventListener('livewire:navigated', function() {
-
-            $(document).off('click', '.edit-movie-button');
-
-            $(document).on('click', '.edit-movie-button', function() {
-                var movieId = $(this).data('id');
-                var modal = $('#editMovieModal');
-                modal.modal('show');
-
-                $.ajax({
-                    url: '/admin/movies/edit/' + movieId,
-                    method: 'GET',
-                    success: function(data) {
-                        $('#edit-movie-id').val(data.movie.MovieID);
-                        $('#edit-title').val(data.movie.Title);
-                        $('#edit-duration').val(data.movie.Duration);
-                        $('#edit-synopsis').val(data.movie.Synopsis);
-                        $('#edit-mainActor').val(data.movie.PrincipalActorID);
-                        $('#current-image').attr('src', data.movie.Image);
-                    }
-                });
-            });
-
-            $(document).on('submit', '#edit-movie-form', function(e) {
-                e.preventDefault();
-                var formData = new FormData(this);
-                var movieId = $('#edit-movie-id').val();
-
-                $.ajax({
-                    url: '/admin/movies/' + movieId,
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                        'X-HTTP-Method-Override': 'PUT'
-                    },
-                    success: function(response) {
-                        if (response.errors) {
-                            const responseMsg = response.errors;
-                            Livewire.dispatch('swalErrorMsg', { response: responseMsg });
-                        } else {
-                            $('#editMovieModal').modal('hide');
-                            Livewire.dispatch('swalConfirmMsg');
-                            updateTable(response.movie);
-                        }
-                    },
-                    error: function(response) {
-                        const responseMsg = response.errors;
-                        Livewire.dispatch('swalErrorMsg', { response: responseMsg });
-                    }
-                });
-            });
-
-            function updateTable(movie) {
-                var row = $('#movie-' + movie.MovieID);
-                row.find('.title').text(movie.Title);
-                row.find('.duration').text(movie.Duration);
-                row.find('.main-actor').text(movie.nameActor);
-                var image = row.find('.movie-image');
-                if (movie.Image) {
-                    image.attr('src', movie.Image);
-                }
-            }
-        });
-    </script>
 </div>
