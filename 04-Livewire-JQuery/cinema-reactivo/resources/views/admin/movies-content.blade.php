@@ -13,7 +13,7 @@
 
 @section('scripts')
     <script>
-        document.addEventListener('livewire:init', () => {
+        document.addEventListener('livewire:navigated', () => {
             Livewire.on('swalConfirmMsg', () => {
                 swalConfirmMsg();
             })

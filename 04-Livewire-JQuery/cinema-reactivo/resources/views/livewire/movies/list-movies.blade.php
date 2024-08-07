@@ -55,7 +55,7 @@
     </div>
 
     <script>
-        document.addEventListener('livewire:init', function() {
+        document.addEventListener('livewire:navigated', function() {
 
             $(document).off('click', '.edit-movie-button');
 
