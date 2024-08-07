@@ -13,7 +13,9 @@
     <!-- Scripts -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
@@ -26,36 +28,7 @@
 
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100">
-        <nav class="bg-white border-b border-gray-100">
-            <!-- Primary Navigation Menu -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between h-16">
-                    <div class="flex">
-                        <!-- Logo -->
-                        <div class="shrink-0 flex items-center">
-                            <a href="">
-                                <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                            </a>
-                        </div>
-
-                        <!-- Navigation Links -->
-                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                            <x-nav-link :href="route('admin-dashboard')" :active="request()->routeIs('admin-dashboard')">
-                                {{ __('Dashboard') }}
-                            </x-nav-link>
-
-                            <x-nav-link :href="route('admin-list-actors')" :active="request()->routeIs('admin-list-actors')">
-                                {{ __('Actors') }}
-                            </x-nav-link>
-
-                            <x-nav-link :href="route('admin-list-movies')" :active="request()->routeIs('admin-list-movies')">
-                                {{ __('Movies') }}
-                            </x-nav-link>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
+        <livewire:layout.navigation />
 
         <!-- Page Heading -->
         <header class="bg-white shadow">
@@ -71,7 +44,7 @@
         </main>
     </div>
     @yield('scripts')
-    <script src=" {{ asset('sweetAlerts/swal.js')}} "></script>
+    <script src=" {{ asset('sweetAlerts/swal.js') }} "></script>
     @livewireScripts
 </body>
 
