@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Actor;
 use App\Models\Movie;
 use Exception;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,7 +15,8 @@ use Illuminate\Support\Facades\Storage;
 
 class MovieController extends Controller
 {
-    public function showDashboardActorsAndMovies() {
+    public function showDashboardActorsAndMovies() :View
+    {
         $actors = Actor::orderBy('ActorID', 'asc')->paginate(5);
         $movies = Movie::orderBy('MovieID', 'asc')->paginate(5);
         return view('admin.dashboard-content', compact('actors', 'movies'));
