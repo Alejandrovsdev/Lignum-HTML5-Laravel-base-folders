@@ -17,13 +17,29 @@ class DeleteMovie extends Component
         'openDeleteMovieModal' => 'loadMovie'
     ];
 
-    public function loadMovie($movieId)
+        /**
+     * Loads an actor from the database based on the provided actor ID.
+     *
+     * @param int $movieId The ID of the movie to load.
+     * @return void
+     */
+    public function loadMovie($movieId): void
     {
         $movie = Movie::find($movieId);
         $this->movieId = $movie->MovieID;
     }
 
-    public function deleteMovie()
+        /**
+     * Handles the delete of an selected movie.
+     *
+     * Deletes an movie from the database based on the movie ID then dispatches events to notify the frontend
+     *
+     * @return void
+     *
+     * @throws \Illuminate\Database\QueryException If a database error occurs during the actor creation. The operation is rolled back and is logged, and an exception is thrown in a event to the frontend with an error message.
+     * @throws \Exception If a general error occurs during the actor creation.  The operation is rolled back and is logged, and an exception is thrown in a event to the frontend with an error message.
+     */
+    public function deleteMovie(): void
     {
         try {
             DB::beginTransaction();

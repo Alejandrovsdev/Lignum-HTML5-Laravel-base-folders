@@ -20,7 +20,7 @@ class ListMovies extends Component
     public function render()
     {
         return view('livewire.movies.list-movies', [
-            'movies' => Movie::orderBy('MovieID', 'asc')->paginate(5),
+            'movies' => Movie::orderBy('MovieID', 'asc')->with('mainActor')->paginate(5),
             'actors' => Actor::all(),
         ]);
     }

@@ -1,4 +1,4 @@
-document.addEventListener("livewire:navigated", () => {
+document.addEventListener("livewire:init", () => {
     Livewire.on("swalConfirmMsg", () => {
         swalConfirmMsg();
     });
@@ -16,7 +16,7 @@ function toggleIcons() {
     }
 }
 
-document.addEventListener("livewire:navigated", function () {
+document.addEventListener("livewire:init", function () {
     $(document).off("click", ".edit-movie-button");
 
     $(document).on("click", ".edit-movie-button", function () {

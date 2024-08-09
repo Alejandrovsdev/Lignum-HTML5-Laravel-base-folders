@@ -1,4 +1,4 @@
-document.addEventListener("livewire:navigated", () => {
+document.addEventListener("livewire:init", () => {
     Livewire.on("swalConfirmMsg", () => {
         swalConfirmMsg();
     });

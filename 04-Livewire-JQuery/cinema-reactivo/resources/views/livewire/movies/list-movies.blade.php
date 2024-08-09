@@ -64,7 +64,7 @@
                             <td class="title">{{ $movie->Title }}</td>
                             <td class="duration">{{ $movie->Duration }}</td>
                             <td class="main-actor">
-                                {{ $movie->mainActor->Name ?? $movie->mainActor()->withTrashed()->first()->Name }}</td>
+                                {{ $movie->mainActor->Name ?? $movie->mainActor()->withTrashed()->first()->Name }}</td> {{-- en caso de relaciones anidadas agregar ? --}}
                             <td><img src="{{ asset($movie->Image) }}" class="movie-image" alt="movie image"
                                     width="100" height="150">
                             </td>
