@@ -22,7 +22,13 @@ class ListActors extends Component
         'actorDeleted' => 'refresh',
     ];
 
-    public function sortBy($field)
+    /**
+     * Sorts the data by the given field.
+     *
+     * @param string $field The field to sort by.
+     * @return void
+     */
+    public function sortBy($field): void
     {
         if ($this->sortField === $field) {
             $this->sortAsc = !$this->sortAsc;
@@ -33,7 +39,12 @@ class ListActors extends Component
         $this->sortField = $field;
     }
 
-    public function updatingSearch()
+    /**
+     * Reset the page when the search value is being updated.
+     *
+     * @return void
+     */
+    public function updatingSearch(): void
     {
         $this->resetPage();
     }
