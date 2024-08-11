@@ -11,7 +11,9 @@ function toggleIcons() {
     var icons = document.getElementById("icons");
     if (icons.classList.contains("hidden")) {
         icons.classList.remove("hidden");
+        icons.classList.add("flex");
     } else {
+        icons.classList.remove("flex");
         icons.classList.add("hidden");
     }
 }

@@ -9,11 +9,11 @@
                 <span>filters</span>
             </button>
 
-            <div wire:ignore.self id="icons" class="hidden icons-container flex justify-between">
+            <div wire:ignore.self id="icons" class="hidden icons-container justify-between">
                 <div class="searchInputContainer">
                     <x-input-label for="search" />
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <x-text-input wire:model.live="search" class="h-8" id="search" type="search" />
+                    <x-text-input wire:model.live="search" class="h-8" id="search" type="search" placeholder="Search..."/>
                 </div>
 
                 <div class="birthdateInputContainer flex">
