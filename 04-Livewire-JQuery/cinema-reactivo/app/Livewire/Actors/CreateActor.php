@@ -33,7 +33,20 @@ class CreateActor extends Component
         $this->validateOnly($propertyName);
     }
 
-    public function createActor() {
+    /**
+ * Handles the creation of a new actor.
+ *
+ * This method validates the input data, attempts to create a new actor record in the database,
+ * and handles any errors that may occur during the process. If successful, it dispatches events
+ * to notify the frontend and resets the form.
+ *
+ * @return void
+ *
+ * @throws \Illuminate\Database\QueryException If a database error occurs during the actor creation. The operation is rolled back and is logged, and an exception is thrown in a event to the frontend with an error message.
+ * @throws \Exception If a general error occurs during the actor creation.  The operation is rolled back and is logged, and an exception is thrown in a event to the frontend with an error message.
+ */
+    public function createActor(): void
+    {
 
         Log::info('Creating a new actor');
 
@@ -59,12 +72,10 @@ class CreateActor extends Component
             DB::rollback();
             Log::error('Database error', ['message' => $e->getMessage(), 'exception' => $e]);
             $this->dispatch('swalErrorMsg', ['message' => 'Database error: ' . $e->getMessage()]);
-            $this->dispatch('errorCreated', ['message' => 'Database error: ' . $e->getMessage()]);
         } catch (Exception $e) {
             DB::rollback();
             Log::error('General error', ['message' => $e->getMessage(), 'exception' => $e]);
             $this->dispatch('swalErrorMsg', ['message' => 'Error saving data: ' . $e->getMessage()]);
-            $this->dispatch('errorCreated', ['message' => 'Error saving data: ' . $e->getMessage()]);
         }
     }
 

@@ -17,13 +17,29 @@ class DeleteActor extends Component
         'openDeleteActorModal' => 'loadActor'
     ];
 
-    public function loadActor($actorId)
+    /**
+     * Loads an actor from the database based on the provided actor ID.
+     *
+     * @param int $actorId The ID of the actor to load.
+     * @return void
+     */
+    public function loadActor($actorId): void
     {
         $actor = Actor::find($actorId);
         $this->actorId = $actor->ActorID;
     }
 
-    public function deleteActor()
+    /**
+     * Handles the delete of an selected actor.
+     *
+     * Deletes an actor from the database based on the actor ID then dispatches events to notify the frontend
+     *
+     * @return void
+     *
+     * @throws \Illuminate\Database\QueryException If a database error occurs during the actor creation. The operation is rolled back and is logged, and an exception is thrown in a event to the frontend with an error message.
+     * @throws \Exception If a general error occurs during the actor creation.  The operation is rolled back and is logged, and an exception is thrown in a event to the frontend with an error message.
+     */
+    public function deleteActor(): void
     {
         try {
             DB::beginTransaction();
@@ -37,8 +53,6 @@ class DeleteActor extends Component
             $this->dispatch('actorDeleted');
 
             Log::info('Actor deleted successfully', ['actor' => $actor]);
-
-
         } catch (QueryException $e) {
             DB::rollback();
             Log::error('Database error', ['message' => $e->getMessage(), 'exception' => $e]);

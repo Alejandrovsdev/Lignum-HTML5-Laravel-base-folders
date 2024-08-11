@@ -13,16 +13,5 @@
 @endsection
 
 @section('scripts')
-    <script>
-        document.addEventListener('livewire:init', () => {
-            Livewire.on('swalConfirmMsg', () => {
-                swalConfirmMsg();
-            })
-
-            Livewire.on('swalErrorMsg', (event) => {
-                const message = event[0].message;
-                swalErrorMsg(message);
-            })
-        })
-    </script>
+    <script src="{{ asset('js/actors-content-scripts.js') }}"></script>
 @endsection

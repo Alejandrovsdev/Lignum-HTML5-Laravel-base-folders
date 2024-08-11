@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Actor;
 use App\Models\Movie;
 use Exception;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -13,6 +15,28 @@ use Illuminate\Support\Facades\Storage;
 
 class MovieController extends Controller
 {
+
+    /**
+     * Displays the dashboard for actors and movies.
+     *
+     * This function retrieves the actors and movies from the database,
+     * paginates them, and passes them to the 'admin.dashboard-content' view.
+     *
+     * @return View
+     */
+    public function showDashboardActorsAndMovies(): View
+    {
+        $actors = Actor::orderBy('ActorID', 'asc')->paginate(5);
+        $movies = Movie::orderBy('MovieID', 'asc')->paginate(5);
+        return view('admin.dashboard-content', compact('actors', 'movies'));
+    }
+
+    /**
+     * Retrieves a movie by its ID and returns it as a JSON response.
+     *
+     * @param int $movieId The ID of the movie to retrieve.
+     * @return \Illuminate\Http\JsonResponse The JSON response containing the movie data.
+     */
     public function getMovie($movieId): JsonResponse
     {
         $movie = Movie::find($movieId)->only([
@@ -26,14 +50,27 @@ class MovieController extends Controller
         return response()->json(['movie' => $movie]);
     }
 
+    /**
+     * Updates a movie in the database.
+     *
+     * This function takes a Request object and a movie ID, validates the request data,
+     * updates the movie with the new data, and returns the updated movie as JSON.
+     *
+     * @param Request $req The incoming request object.
+     * @param int $movieId The ID of the movie to update.
+     * @throws \Illuminate\Database\QueryException If a database error occurs during the actor creation. The operation is rolled back and is logged, and an exception is thrown in a event to the frontend with an error message.
+     * @throws \Exception If a general error occurs during the actor creation.  The operation is rolled back and is logged, and an exception is thrown in a event to the frontend with an error message.
+     * @return JsonResponse The updated movie data as JSON.
+     */
     public function updateMovie(Request $req, $movieId): JsonResponse
     {
         try {
-            $movie = Movie::find($movieId); //TODO: Usar find y un error controlado
+            $movie = Movie::find($movieId);
 
             $validateData = $req->validate([
                 'title' => 'required|min:3|max:50|string',
-                'duration' => 'required', 'regex:/^\d{1,3}(:[0-5]\d)?$/', // Valida "hh:mm" o solo minutos
+                'duration' => 'required',
+                'regex:/^\d{1,3}(:[0-5]\d)?$/', // Valida "hh:mm" o solo minutos
                 'synopsis' => 'required|string',
                 'image' => 'nullable|file|image|max:2048',
                 'mainActor' => 'required',

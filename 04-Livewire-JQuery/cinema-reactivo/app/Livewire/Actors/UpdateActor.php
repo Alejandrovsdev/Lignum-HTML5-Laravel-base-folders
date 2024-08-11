@@ -35,7 +35,13 @@ class UpdateActor extends Component
 
     protected $listeners = ['openUpdateActorModal' => 'loadActor'];
 
-    public function loadActor($actorId)
+    /**
+     * Loads an actor from the database based on the provided actor ID.
+     *
+     * @param int $actorId The ID of the actor to load.
+     * @return void
+     */
+    public function loadActor($actorId): void
     {
         $actor = Actor::find($actorId);
         $this->actorId = $actor->ActorID;
@@ -43,7 +49,20 @@ class UpdateActor extends Component
         $this->birthdate = Carbon::parse($actor->Birthdate)->format('Y-m-d');
     }
 
-    public function updateActor() {
+    /**
+     * Handles the update of an selected actor.
+     *
+     * This method validates the input data, attempts to the actor record in the database,
+     * and handles any errors that may occur during the process. If successful, it dispatches events
+     * to notify the frontend and change the data in the table.
+     *
+     * @return void
+     *
+     * @throws \Illuminate\Database\QueryException If a database error occurs during the actor creation. The operation is rolled back and is logged, and an exception is thrown in a event to the frontend with an error message.
+     * @throws \Exception If a general error occurs during the actor creation.  The operation is rolled back and is logged, and an exception is thrown in a event to the frontend with an error message.
+     */
+    public function updateActor(): void
+    {
 
         Log::info('Updating current actor');
 

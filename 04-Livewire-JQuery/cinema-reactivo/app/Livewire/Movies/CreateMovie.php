@@ -34,12 +34,32 @@ class CreateMovie extends Component
         'image' => 'required|file|image|max:2048',
     ];
 
-    public function updated($propertyName)
+        /**
+     * Handles the updated event for the component.
+     *
+     * @param string $propertyName The name of the property that was updated.
+     * @return void
+     */
+    public function updated($propertyName): void
     {
         $this->validateOnly($propertyName);
     }
 
-    public function createMovie() {
+        /**
+ * Handles the creation of a new movie.
+ *
+ * This method validates the incoming data, handles the image upload process,
+ * and saves the movie information in the database. It also manages
+ * transactions and logs events. If an error occurs, it handles the
+ * exceptions and provides feedback via dispatch events.
+ *
+ * @return void
+ *
+ * @throws \Illuminate\Database\QueryException If a database error occurs during the actor creation. The operation is rolled back and is logged, and an exception is thrown in a event to the frontend with an error message.
+ * @throws \Exception If a general error occurs during the actor creation.  The operation is rolled back and is logged, and an exception is thrown in a event to the frontend with an error message.
+ */
+    public function createMovie(): void
+    {
         Log::info('Creating a new movie');
 
         try {
