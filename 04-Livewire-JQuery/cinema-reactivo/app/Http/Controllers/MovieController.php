@@ -65,7 +65,7 @@ class MovieController extends Controller
     public function updateMovie(Request $req, $movieId): JsonResponse
     {
         try {
-            $movie = Movie::find($movieId); //TODO: Usar find y un error controlado
+            $movie = Movie::find($movieId);
 
             $validateData = $req->validate([
                 'title' => 'required|min:3|max:50|string',

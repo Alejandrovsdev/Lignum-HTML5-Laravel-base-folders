@@ -8,39 +8,20 @@
                 <i class="fa-solid fa-filter"></i>
                 <span>filters</span>
             </button>
-            <div id="icons" class="hidden icons-container flex justify-between">
+
+            <div wire:ignore.self id="icons" class="hidden icons-container flex justify-between">
                 <div class="searchInputContainer">
                     <x-input-label for="search" />
-                    <button class="hover:text-green-600 text-end">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                    <x-text-input class="h-8" id="search" type="text" />
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <x-text-input wire:model.live="search" class="h-8" id="search" type="search" />
                 </div>
 
                 <div class="birthdateInputContainer flex">
                     <x-input-label for="searchDateFrom" :value="__('From')" />
-                    <x-text-input class="h-8 me-4" id="searchDateFrom" type="date" />
+                    <x-text-input wire:model.blur="searchDateFrom" class="h-8 me-4" id="searchDateFrom" type="date" />
 
                     <x-input-label for="searchDateTo" :value="__('To')" />
-                    <x-text-input class="h-8" id="searchDateTo" type="date" />
-                </div>
-
-                <div class="orderIconsContainer">
-                    <button class="hover:text-green-600 me-3">
-                        <i class="fa-solid fa-arrow-up-1-9"></i>
-                    </button>
-
-                    <button class="hover:text-green-600 me-3">
-                        <i class="fa-solid fa-arrow-down-9-1"></i>
-                    </button>
-
-                    <button class="hover:text-green-600 me-3">
-                        <i class="fa-solid fa-arrow-down-z-a"></i>
-                    </button>
-
-                    <button class="hover:text-green-600 me-3">
-                        <i class="fa-solid fa-arrow-up-a-z"></i>
-                    </button>
+                    <x-text-input wire:model.blur="searchDateTo" class="h-8" id="searchDateTo" type="date" />
                 </div>
             </div>
         </div>
@@ -49,9 +30,54 @@
             <table class="table border-gray-800 text-gray-800">
                 <thead>
                     <tr>
-                        <th scope="col">#id</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Birthdate</th>
+                        <th scope="col">
+                            <div class="flex items-center">
+                                <button wire:click="sortBy('ActorID')" class="me-2">#Id</button>
+                                @if ($sortField !== 'ActorID')
+                                    <span></span>
+                                @elseif ($sortAsc)
+                                    <span>
+                                        <i class="fa-solid fa-arrow-up-1-9"></i>
+                                    </span>
+                                @else
+                                    <span>
+                                        <i class="fa-solid fa-arrow-down-9-1"></i>
+                                    </span>
+                                @endif
+                            </div>
+                        </th>
+                        <th scope="col">
+                            <div class="flex items-center">
+                                <button wire:click="sortBy('Name')" class="me-2">Name</button>
+                                @if ($sortField !== 'Name')
+                                    <span></span>
+                                @elseif ($sortAsc)
+                                    <span>
+                                        <i class="fa-solid fa-arrow-up-a-z"></i>
+                                    </span>
+                                @else
+                                    <span>
+                                        <i class="fa-solid fa-arrow-down-z-a"></i>
+                                    </span>
+                                @endif
+                            </div>
+                        </th>
+                        <th scope="col">
+                            <div class="flex items-center">
+                                <button wire:click="sortBy('Birthdate')" class="me-2">Birthdate</button>
+                                @if ($sortField !== 'Birthdate')
+                                    <span></span>
+                                @elseif ($sortAsc)
+                                    <span>
+                                        <i class="fa-solid fa-arrow-up-1-9"></i>
+                                    </span>
+                                @else
+                                    <span>
+                                        <i class="fa-solid fa-arrow-down-9-1"></i>
+                                    </span>
+                                @endif
+                            </div>
+                        </th>
                         <th scope="col" class="text-center">Actions</th>
                     </tr>
                 </thead>
