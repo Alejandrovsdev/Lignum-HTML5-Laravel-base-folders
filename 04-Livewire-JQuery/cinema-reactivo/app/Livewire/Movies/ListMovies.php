@@ -50,8 +50,9 @@ class ListMovies extends Component
 
     public function render()
     {
-        $movies = Movie::where(function ($query) {
-            $query->where('Title', 'like', '%' . $this->search . '%');
+        $movies = Movie::whereHas('mainActor', function ($query) {
+            $query->where('Title', 'like', '%' . $this->search . '%')
+                ->orWhere('Name', 'like', '%' . $this->search . '%');
         });
 
         if ($this->sortField === 'mainActor.Name') {
