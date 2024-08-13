@@ -16,12 +16,12 @@ class MovieCategory extends Pivot
 
     public function movie()
     {
-        return $this->belongsTo(Movie::class);
+        return $this->belongsTo(Movie::class, 'MovieID');
     }
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'CategoryID');
     }
 
 }
