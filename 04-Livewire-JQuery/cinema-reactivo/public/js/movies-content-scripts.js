@@ -2,11 +2,22 @@ document.addEventListener("livewire:init", () => {
     Livewire.on("swalConfirmMsg", () => {
         swalConfirmMsg();
     });
-    Livewire.on("swalErrorMsg", (response) => {
+
+    Livewire.on("swalErrorMsg", (event) => {
+        const message = event[0].message;
+        swalErrorMsg(message);
+    });
+
+    Livewire.on("swalErrorEditMsg", (response) => {
         swalErrorMsg(response.response.general);
     });
 });
 
+/**
+ * Toggles the visibility of icons by switching between 'hidden' and 'flex' classes.
+ *
+ * @return {void}
+ */
 function toggleIcons() {
     var icons = document.getElementById("icons");
     if (icons.classList.contains("hidden")) {
@@ -34,7 +45,12 @@ document.addEventListener("livewire:init", function () {
                 $("#edit-title").val(data.movie.Title);
                 $("#edit-duration").val(data.movie.Duration);
                 $("#edit-synopsis").val(data.movie.Synopsis);
-                $("#edit-mainActor").val(data.movie.PrincipalActorID);
+                $("#edit-mainActor")
+                    .select2({
+                        dropdownParent: $("#editMovieModal"),
+                    })
+                    .val(data.movie.PrincipalActorID)
+                    .trigger("change");
                 $("#current-image").attr("src", data.movie.Image);
             },
         });
@@ -58,7 +74,7 @@ document.addEventListener("livewire:init", function () {
             success: function (response) {
                 if (response.errors) {
                     const responseMsg = response.errors;
-                    Livewire.dispatch("swalErrorMsg", {
+                    Livewire.dispatch("swalErrorEditMsg", {
                         response: responseMsg,
                     });
                 } else {

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Actor;
 use App\Models\Movie;
 use App\Models\MovieActor;
+use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;

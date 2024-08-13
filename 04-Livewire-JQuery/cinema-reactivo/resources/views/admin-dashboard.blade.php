@@ -22,6 +22,8 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
@@ -47,6 +49,7 @@
     <script src=" {{ asset('sweetAlerts/swal.js') }} "></script>
     @livewireScripts
 </body>
-<footer class="text-gray-500 text-center">Dev by Alejandro with <span class="text-red-600">♥</span> from Argentina.</footer>
+<footer class="text-gray-500 text-center">Dev by Alejandro with <span class="text-red-600">♥</span> from Argentina.
+</footer>
 
 </html>

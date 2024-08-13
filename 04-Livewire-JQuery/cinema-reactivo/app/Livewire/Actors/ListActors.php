@@ -3,6 +3,7 @@
 namespace App\Livewire\Actors;
 
 use App\Models\Actor;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -49,7 +50,12 @@ class ListActors extends Component
         $this->resetPage();
     }
 
-    public function render()
+        /**
+     * Renders the list of actors based on the search criteria and sorting options.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function render(): View
     {
         $actores = Actor::where(function ($search) {
             $search->where('Name', 'like', '%' . $this->search . '%');
