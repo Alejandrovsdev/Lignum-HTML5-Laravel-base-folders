@@ -21,6 +21,11 @@ class Actor extends Model
         return $this->hasMany(Movie::class, 'PrincipalActorID');
     }
 
+    public function actorCountry()
+    {
+        return $this->belongsTo(Country::class, 'ActorCountryID', 'CountryID', 'ActorID');
+    }
+
     public function getBirthdateAttribute($date)
     {
         return Carbon::parse($date)->format('d-m-Y');

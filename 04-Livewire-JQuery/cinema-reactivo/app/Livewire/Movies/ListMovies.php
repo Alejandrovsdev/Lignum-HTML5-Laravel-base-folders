@@ -4,6 +4,7 @@ namespace App\Livewire\Movies;
 
 use App\Models\Actor;
 use App\Models\Movie;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -21,7 +22,7 @@ class ListMovies extends Component
         'movieDeleted' => 'refresh',
     ];
 
-        /**
+    /**
      * Sorts the data by the given field.
      *
      * @param string $field The field to sort by.
@@ -48,7 +49,12 @@ class ListMovies extends Component
         $this->resetPage();
     }
 
-    public function render()
+    /**
+     * Renders the list of movies based on the search query and sorting options.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function render(): View
     {
         $movies = Movie::whereHas('mainActor', function ($query) {
             $query->where('Title', 'like', '%' . $this->search . '%')

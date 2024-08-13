@@ -17,4 +17,9 @@ class Movie extends Model
     {
         return $this->belongsTo(Actor::class, 'PrincipalActorID', 'ActorID', 'MovieID');
     }
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
+    }
 }

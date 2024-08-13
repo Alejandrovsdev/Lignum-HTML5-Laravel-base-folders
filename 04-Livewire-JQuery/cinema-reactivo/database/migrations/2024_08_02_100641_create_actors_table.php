@@ -15,8 +15,11 @@ return new class extends Migration
             $table->bigIncrements('ActorID');
             $table->string('Name', 50);
             $table->date('Birthdate');
+            $table->unsignedBigInteger('ActorCountryID');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('ActorCountryID')->references('CountryID')->on('countries');
         });
     }
 
