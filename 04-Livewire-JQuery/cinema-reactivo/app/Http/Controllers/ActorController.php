@@ -123,4 +123,14 @@ class ActorController extends Controller
             return response()->json(['errors' => ['general' => 'Error saving data: ' . $e->getMessage()]]);
         }
     }
+
+    /*
+    TODO:
+    public function deleteActor($actorId)
+    public function filterByCountry($countryId)
+    public function filterBySearch($search)
+    public function sortBy($field)
+    public function filterByDate($date)
+
+    */
 }
