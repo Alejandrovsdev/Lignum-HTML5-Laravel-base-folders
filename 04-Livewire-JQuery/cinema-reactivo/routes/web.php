@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActorController;
 use App\Http\Controllers\MovieController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,4 +14,9 @@ Route::prefix('/admin')->group(function () {
         Route::get('/edit/{movieId}', [MovieController::class, 'getMovie']);
         Route::put('/{movieId}', [MovieController::class, 'updateMovie']);
     });
+});
+
+Route::prefix('/jq-practice')->group(function () {
+    Route::get('/', [ActorController::class, 'listActors'])->name('jq-practice');
+    Route::post('/create-actor', [ActorController::class, 'createActor']);
 });

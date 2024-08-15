@@ -20,9 +20,11 @@ return new class extends Migration
             $table->boolean('IsFavorite')->default(false);
             $table->timestamps();
             $table->unsignedBigInteger('PrincipalActorID')->nullable();
+            $table->unsignedBigInteger('MovieCategoryID');
             $table->softDeletes();
 
             $table->foreign('PrincipalActorID')->references('ActorID')->on('actors');
+            $table->foreign('MovieCategoryID')->references('CategoryID')->on('categories');
         });
     }
 

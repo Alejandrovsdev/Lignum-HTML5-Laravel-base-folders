@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Actor;
+use App\Models\Country;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\View\View;
@@ -20,7 +22,8 @@ class ActorController extends Controller
     public function listActors(): View
     {
         $actors = Actor::orderBy('ActorID', 'asc')->with('actorCountry')->paginate(6);
-        return view('admin.jq-crud.list-actors', compact('actors'));
+        $countries = Country::orderBy('CountryName', 'asc')->get();
+        return view('admin.jq-crud.list-jq-actors', compact('actors', 'countries'));
     }
 
     /**
@@ -46,6 +49,9 @@ class ActorController extends Controller
             $actor->ActorCountryID = $validateData['country'];
             $actor->save();
 
+
+            $actor->CountryName = $actor->actorCountry->CountryName;
+
             $actor = $actor->only([
                 'ActorID',
                 'Name',
@@ -53,7 +59,6 @@ class ActorController extends Controller
                 'CountryName'
             ]);
 
-            $actor->CountryName = $actor->actorCountry->CountryName;
         } catch (Exception $e) {
             Log::error('General error', ['message' => $e->getMessage(), 'exception' => $e]);
             return response()->json(['errors' => ['general' => 'Error saving data: ' . $e->getMessage()]]);
@@ -62,7 +67,7 @@ class ActorController extends Controller
             return response()->json(['errors' => ['database' => 'Database error: ' . $e->getMessage()]]);
         }
 
-        return response()->json(['actor' => $actor]);
+        return response()->json($actor);
     }
 
     /**

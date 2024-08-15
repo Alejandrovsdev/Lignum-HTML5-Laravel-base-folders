@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('countries', function (Blueprint $table) {
             $table->bigIncrements('CountryID');
-            $table->string('CountryName', 50);
+            $table->string('CountryName', 50)->unique();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

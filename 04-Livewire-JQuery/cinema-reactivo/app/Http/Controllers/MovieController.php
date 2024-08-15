@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Actor;
+use App\Models\Category;
 use App\Models\Movie;
+use App\Models\MovieCategory;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -15,6 +18,61 @@ use Illuminate\Support\Facades\Storage;
 
 class MovieController extends Controller
 {
+    public function listMovies(): View
+    {
+        $movies = Movie::orderBy('MovieID', 'asc')->with('categories')->paginate(6);
+        $categories = Category::with('movies')->get();
+        return view('admin.jq-crud.list-jq-movies', compact('movies'));
+    }
+
+    public function createMovie(Request $req): RedirectResponse
+    {
+        try {
+            $validateData = $req->validate([]);
+
+            DB::beginTransaction();
+
+            if ($req->hasFile('image')) {
+                $image = $req->file('image');
+                $extension = $image->extension();
+                $originalName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                $imageName = hash('sha256', $originalName . time()) . '.' . $extension;
+                $path = $image->storeAs('public/images', $imageName);
+                $imageUrl = Storage::url($path);
+            }
+
+            $movie = new Movie();
+            $movie->Title = $validateData['title'];
+            $movie->Duration = $validateData['duration'];
+            $movie->Synopsis = $validateData['synopsis'];
+            $movie->PrincipalActorID = $validateData['mainActor'];
+            $movie->Image = $imageUrl;
+            $movie->save();
+
+            if ($req->has('categories')) {
+                $categories = $req->input('categories');
+
+                foreach ($categories as $categoryId) {
+                    $movieCategory = new MovieCategory();
+                    $movieCategory->MovieID = $movie->MovieID;
+                    $movieCategory->CategoryID = $categoryId;
+                    $movieCategory->save();
+
+                    $movie->MovieCategoryID = $movieCategory->CategoryID;
+                }
+
+                $movie->save();
+            }
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+        } catch (QueryException $e) {
+            DB::rollBack();
+        }
+
+        return redirect()->route('list-jq-movies');
+    }
 
     /**
      * Displays the dashboard for actors and movies.

@@ -18,8 +18,20 @@ class Movie extends Model
         return $this->belongsTo(Actor::class, 'PrincipalActorID', 'ActorID', 'MovieID');
     }
 
+    public function categoryMovies()
+    {
+        return $this->hasMany(Category::class, 'MovieCategoryID');
+    }
+
     public function categories()
     {
-        return $this->hasMany(Category::class);
+        return $this->hasManyThrough(
+            Category::class,
+            MovieCategory::class,
+            'MovieID',
+            'CategoryID',
+            'MovieID',
+            'CategoryID'
+        );
     }
 }

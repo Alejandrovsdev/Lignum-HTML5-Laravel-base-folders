@@ -71,14 +71,16 @@
     </div>
     @script
     <script>
-        $("#mainActor").select2({
-            dropdownParent: $("#createMovieModal"),
-            placeholder: "Select an Actor",
+        const selectMainActor = $('#mainActor');
+        const createModal = $('#createMovieModal');
+        selectMainActor.select2({
+            dropdownParent: createModal,
+            placeholder: 'Select an Actor',
         });
 
-        $("#mainActor").on("select2:select", function(e) {
-            var data = e.params.data.id;
-            $wire.$set("mainActor", data);
+        selectMainActor.on('select2:select', function(event) {
+            var data = event.params.data.id;
+            $wire.$set('mainActor', data);
         });
     </script>
     @endscript
