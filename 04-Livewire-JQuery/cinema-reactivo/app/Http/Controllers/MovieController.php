@@ -20,9 +20,9 @@ class MovieController extends Controller
 {
     public function listMovies(): View
     {
-        $movies = Movie::orderBy('MovieID', 'asc')->with('categories')->paginate(6);
+        $movies = Movie::orderBy('MovieID', 'asc')->with(['categories', 'mainActor'])->paginate(6);
         $categories = Category::with('movies')->get();
-        return view('admin.jq-crud.list-jq-movies', compact('movies'));
+        return view('admin.jq-crud.list-jq-movies', compact(['movies', 'categories']));
     }
 
     public function createMovie(Request $req): RedirectResponse

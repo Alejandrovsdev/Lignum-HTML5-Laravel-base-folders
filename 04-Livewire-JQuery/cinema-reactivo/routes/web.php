@@ -17,6 +17,8 @@ Route::prefix('/admin')->group(function () {
 });
 
 Route::prefix('/jq-practice')->group(function () {
-    Route::get('/', [ActorController::class, 'listActors'])->name('jq-practice');
-    Route::post('/create-actor', [ActorController::class, 'createActor']);
+    Route::get('/actors', [ActorController::class, 'listActors'])->name('jq-practice-actors');
+    Route::post('actors/create-actor', [ActorController::class, 'createActor']);
+    Route::get('/movies', [MovieController::class, 'listMovies'])->name('jq-practice-movies');
+    Route::post('/movies/create-movie', [MovieController::class, 'createMovie'])->name('createMovie');
 });
